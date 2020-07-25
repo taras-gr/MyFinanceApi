@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinance.Api", "MyFinance.Api\MyFinance.Api.csproj", "{C37D6E6A-68C1-4F9E-840E-F42C094BD799}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Api", "MyFinance.Api\MyFinance.Api.csproj", "{C37D6E6A-68C1-4F9E-840E-F42C094BD799}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinance.Domain", "MyFinance.Domain\MyFinance.Domain.csproj", "{621EDF40-0FCB-498A-A447-F4A376928271}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Domain", "MyFinance.Domain\MyFinance.Domain.csproj", "{621EDF40-0FCB-498A-A447-F4A376928271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinance.Services", "MyFinance.Services\MyFinance.Services.csproj", "{42C34A7E-703E-4329-A7A7-42300CB8FE56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Services", "MyFinance.Services\MyFinance.Services.csproj", "{42C34A7E-703E-4329-A7A7-42300CB8FE56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinance.Repositories", "MyFinance.Repositories\MyFinance.Repositories.csproj", "{CA1188AF-017A-4033-9229-A8F075D737FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Repositories", "MyFinance.Repositories\MyFinance.Repositories.csproj", "{CA1188AF-017A-4033-9229-A8F075D737FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinance.Api.Tests", "MyFinance.Api.Tests\MyFinance.Api.Tests.csproj", "{0B69CC46-4323-4040-BAE5-A122C8992BB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{CA1188AF-017A-4033-9229-A8F075D737FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA1188AF-017A-4033-9229-A8F075D737FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA1188AF-017A-4033-9229-A8F075D737FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B69CC46-4323-4040-BAE5-A122C8992BB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B69CC46-4323-4040-BAE5-A122C8992BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B69CC46-4323-4040-BAE5-A122C8992BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B69CC46-4323-4040-BAE5-A122C8992BB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
