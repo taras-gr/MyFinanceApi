@@ -40,11 +40,13 @@ pipeline {
         }
         stage('Docker build') {
             steps {
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
                     def customImage = docker.build('tarik2000/myfinanceapi')
 
                     customImage.push()
-                }
+                    }
+                }                
             }
         }
     }
