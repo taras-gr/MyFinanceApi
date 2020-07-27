@@ -38,5 +38,14 @@ pipeline {
                 bat "dotnet test MyFinance.Api.Tests\\MyFinance.Api.Tests.csproj"
             }
         }
+        stage('Docker build') {
+            steps {
+                docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                    def customImage = docker.build('tarik2000/myfinanceapi')
+
+                    customImage.push()
+                }
+            }
+        }
     }
 }
