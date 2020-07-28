@@ -27,7 +27,7 @@ namespace MyFinance.Api.Controllers
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
-            Console.WriteLine("Docker test");
+            Console.WriteLine("Docker test. This if for test commit");
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
