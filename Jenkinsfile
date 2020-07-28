@@ -51,5 +51,13 @@ pipeline {
                 }                
             }
         }
+        stage('Update local container') {
+            steps {
+                bat 'docker pull tarik2000/myfinanceapi'
+                bat 'docker stop tarik2000/myfinanceapi'
+                bat 'docker rm tarik2000/myfinanceapi'
+                bat 'docker run docker run -it -p 5000:80 tarik2000/myfinanceapi:latest'
+            }
+        }
     }
 }
