@@ -48,15 +48,7 @@ pipeline {
                     }
                 }                
             }
-        }
-        stage('Deploy to IIS') {
-            steps {
-                script {
-                    def msbuild = tool name: 'MSBuild', type: 'hudson.plugins.msbuild.MsBuildInstallation'
-                    bat "${msbuild} MyFinanceApi.sln /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:SkipInvalidConfigurations=true /t:build /p:Configuration=Release /p:Platform=\"Any CPU\" /p:DeleteExistingFiles=True /p:publishUrl=D:\\MyFinanceApi"
-                }
-            }
-        }    
+        } 
 
     }
 }
