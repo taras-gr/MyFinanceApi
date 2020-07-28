@@ -56,7 +56,7 @@ pipeline {
                 bat 'docker pull tarik2000/myfinanceapi'
                 bat 'docker stop 62a8c1ada18ce6884212e755d0ef106a9ba69cf8d861df84fbb6d55b0d0bb9a3'
                 bat 'docker rm 62a8c1ada18ce6884212e755d0ef106a9ba69cf8d861df84fbb6d55b0d0bb9a3'
-                bat 'docker run docker run -it -p 5000:80 tarik2000/myfinanceapi:latest'
+                bat 'docker run -it -p 5000:80 tarik2000/myfinanceapi:latest'
             }
         }
     }
