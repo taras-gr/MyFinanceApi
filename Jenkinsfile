@@ -54,8 +54,8 @@ pipeline {
         stage('Update local container') {
             steps {
                 bat 'docker pull tarik2000/myfinanceapi'
-                bat 'docker stop a494cde846a30660223a0b63c9ac7823dd57b58a1adb7010304dcf3c83feb198'
-                bat 'docker rm a494cde846a30660223a0b63c9ac7823dd57b58a1adb7010304dcf3c83feb198'
+                bat 'docker stop dbd7f5ef17193a77cb8caaab7c104f57f4a141caac89883a92898355ac1b9508'
+                bat 'docker rm dbd7f5ef17193a77cb8caaab7c104f57f4a141caac89883a92898355ac1b9508'
                 bat 'docker run -it -p 5000:80 tarik2000/myfinanceapi:latest'
             }
         }
