@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'bd7e829d-87f5-4668-aeb8-d24c443b2f3c', url: 'https://github.com/taras-gr/MyFinanceApi.git/', branch: 'refs/heads/master'
+                git credentialsId: 'bd7e829d-87f5-4668-aeb8-d24c443b2f3c', url: 'https://github.com/taras-gr/MyFinanceApi.git/', branch: 'master'
             }
         }
         stage('Restore packages'){
