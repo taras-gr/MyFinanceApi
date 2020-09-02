@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Bson;
+using MongoDB.Driver;
 using MyFinance.Domain;
 using MyFinance.Domain.Interfaces.Repositories;
 using MyFinance.Domain.Models;
@@ -29,9 +30,12 @@ namespace MyFinance.Repositories.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<User> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            var filter = new BsonDocument("Email", email);
+            var userFromRepo = await _context.Users.Find(filter).FirstOrDefaultAsync();
+
+            return userFromRepo;
         }
 
         public Task<User> GetUserById(ObjectId userId)

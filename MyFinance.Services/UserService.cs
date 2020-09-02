@@ -28,9 +28,9 @@ namespace MyFinance.Services
             throw new NotImplementedException();
         }
 
-        public Task<User> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            return await _userRepository.GetUserByEmail(email);
         }
 
         public Task<List<User>> GetUsers()

@@ -33,7 +33,7 @@ namespace MyFinance.Api.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult> CreateUser([FromBody]UserForCreationDto user)
+        public async Task<ActionResult> RegisterUser([FromBody]UserForCreationDto user)
         {
             var userToAdd = _mapper.Map<User>(user);
 
@@ -59,6 +59,31 @@ namespace MyFinance.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
+        }
+
+        [HttpPost("Login")]
+        public async Task<ActionResult> Login([FromBody]UserForLoginDto user)
+        {
+            var userFromRepo = await _userService.GetUserByEmail(user.Email);
+
+            if (user != null && user.Password == userFromRepo.Password)
+            {
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserId", userFromRepo.Id.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Value.JwtSecret)), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.WriteToken(securityToken);
+                return Ok(new { token });
+            }
+
+            return BadRequest(new { message = "Username or password is incorrect." });
         }
     }
 }
