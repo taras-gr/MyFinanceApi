@@ -18,9 +18,9 @@ namespace MyFinance.Services
             _userRepository = userRepository;
         }
 
-        public Task<User> GetUserById(ObjectId userId)
+        public async Task<User> GetUserById(ObjectId userId)
         {
-            throw new NotImplementedException();
+            return await _userRepository.GetUserById(userId);
         }
 
         public Task<User> GetUserByName(string userName)

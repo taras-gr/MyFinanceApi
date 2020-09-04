@@ -38,9 +38,11 @@ namespace MyFinance.Repositories.Repositories
             return userFromRepo;
         }
 
-        public Task<User> GetUserById(ObjectId userId)
+        public async Task<User> GetUserById(ObjectId userId)
         {
-            throw new NotImplementedException();
+            var userFromRepo = await _context.Users.Find(user => user.Id == userId).FirstOrDefaultAsync();
+
+            return userFromRepo;
         }
 
         public Task<User> GetUserByName(string userName)
