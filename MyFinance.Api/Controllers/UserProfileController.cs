@@ -30,6 +30,7 @@ namespace MyFinance.Api.Controllers
 
             return new
             {
+                user.UserName,
                 user.FirstName,
                 user.LastName,
                 user.Email

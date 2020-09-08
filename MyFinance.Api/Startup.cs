@@ -4,9 +4,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MyFinance.Domain.Interfaces.Repositories;
 using MyFinance.Repositories;
@@ -32,9 +34,18 @@ namespace MyFinance.Api
 
             services.AddScoped<IUserService, UserService>();
 
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRepository, UserRepositoryRdms>();
+
+            services.AddScoped<IExpenseService, ExpenseService>();
+
+            services.AddScoped<IExpenseRepository, ExpenseRepository>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            var connectionString = @"Data Source=TARASPC;Initial Catalog=MyFinanceDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
+            services.AddDbContext<MyFinanceContext>(options =>
+                options.UseSqlServer(connectionString).UseLoggerFactory(GetLoggerFactory()));
 
             var jwtSettings = Configuration.GetSection("JwtSettings");
             services.Configure<JwtSettings>(jwtSettings);
@@ -87,6 +98,17 @@ namespace MyFinance.Api
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private ILoggerFactory GetLoggerFactory()
+        {
+            IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(builder =>
+                   builder.AddConsole()
+                          .AddFilter(DbLoggerCategory.Database.Command.Name,
+                                     LogLevel.Information));
+            return serviceCollection.BuildServiceProvider()
+                    .GetService<ILoggerFactory>();
         }
     }
 }

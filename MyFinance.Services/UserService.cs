@@ -41,6 +41,7 @@ namespace MyFinance.Services
         public async Task AddUser(User user)
         {
             await _userRepository.AddUser(user);
+            await _userRepository.Save();
         }
 
         public Task<bool> UpdateUser(string userId, User user)
