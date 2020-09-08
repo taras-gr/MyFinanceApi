@@ -11,7 +11,7 @@ namespace MyFinance.Domain.Interfaces.Repositories
         Task<User> GetUserByName(string userName);
         Task<User> GetUserByEmail(string email);
         Task<List<User>> GetUsers();
-        Task AddUser(User user);
+        Task<User> AddUser(User user);
         Task<bool> UpdateUser(string userId, User user);
         Task<bool> DeleteUser(string userId);
         Task<int> Save();

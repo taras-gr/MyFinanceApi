@@ -1,17 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using MyFinance.Domain.Models;
 using MyFinance.Services.DataTransferObjects;
 using MyFinance.Services.Interfaces;
 using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MyFinance.Api.Controllers
@@ -43,38 +38,13 @@ namespace MyFinance.Api.Controllers
         {
             var expenseToAdd = _mapper.Map<Expense>(expense);
 
-            string id = User.Claims.First(c => c.Type == "UserId").Value;
+            string userIdFromToken = User.Claims.First(c => c.Type == "Id").Value;
 
-            var userId = new Guid(id);
+            var userId = new Guid(userIdFromToken);
 
             await _expenseService.AddExpense(userId, expenseToAdd);
 
             return Ok();
-
-            //var userToAdd = _mapper.Map<User>(user);
-
-            //try
-            //{
-            //    await _userService.AddUser(userToAdd);
-
-            //    var tokenDescriptor = new SecurityTokenDescriptor
-            //    {
-            //        Subject = new ClaimsIdentity(new Claim[]
-            //        {
-            //            new Claim("UserId", userToAdd.Id.ToString())
-            //        }),
-            //        Expires = DateTime.UtcNow.AddDays(1),
-            //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Value.JwtSecret)), SecurityAlgorithms.HmacSha256Signature)
-            //    };
-            //    var tokenHandler = new JwtSecurityTokenHandler();
-            //    var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-            //    var token = tokenHandler.WriteToken(securityToken);
-            //    return Ok(new { token });
-            //}
-            //catch (Exception ex)
-            //{
-            return StatusCode(StatusCodes.Status500InternalServerError);
-            //}
         }
     }
 }

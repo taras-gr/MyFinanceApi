@@ -16,9 +16,10 @@ namespace MyFinance.Repositories.Repositories
         {
             _context = context;
         }
-        public async Task AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
-            await _context.Users.AddAsync(user);
+            var result = await _context.Users.AddAsync(user);
+            return result.Entity;
         }
 
         public Task<bool> DeleteUser(string userId)

@@ -38,10 +38,11 @@ namespace MyFinance.Services
             throw new NotImplementedException();
         }
 
-        public async Task AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
-            await _userRepository.AddUser(user);
+            var result = await _userRepository.AddUser(user);
             await _userRepository.Save();
+            return result;
         }
 
         public Task<bool> UpdateUser(string userId, User user)

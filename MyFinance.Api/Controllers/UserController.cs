@@ -39,13 +39,13 @@ namespace MyFinance.Api.Controllers
 
             try
             {
-                await _userService.AddUser(userToAdd);
+                var addedUser = await _userService.AddUser(userToAdd);
 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserId", userToAdd.Id.ToString())
+                        new Claim("Id", addedUser.Id.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Value.JwtSecret)), SecurityAlgorithms.HmacSha256Signature)
