@@ -40,9 +40,13 @@ namespace MyFinance.Api
 
             services.AddScoped<IExpenseRepository, ExpenseRepository>();
 
+            services.AddScoped<ICategoryService, CategoryService>();
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            var connectionString = @"Data Source=TARASPC;Initial Catalog=MyFinanceDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            var connectionString = @"Server=localhost;Database=MyFinanceDb;User Id=sa;Password=1234sql@;";
 
             services.AddDbContext<MyFinanceContext>(options =>
                 options.UseSqlServer(connectionString).UseLoggerFactory(GetLoggerFactory()));

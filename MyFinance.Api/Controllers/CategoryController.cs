@@ -12,7 +12,7 @@ using MyFinance.Services.Interfaces;
 namespace MyFinance.Api.Controllers
 {
     [ApiController]
-    [Route("api/users/{userName}/catrgories")]
+    [Route("api/users/{userName}/categories")]
     [Authorize]
     public class CategoryController : ControllerBase
     {
