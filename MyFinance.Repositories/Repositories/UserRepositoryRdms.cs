@@ -32,9 +32,9 @@ namespace MyFinance.Repositories.Repositories
             return await _context.Users.FirstOrDefaultAsync(s => s.Email == email);
         }
 
-        public Task<User> GetUserById(ObjectId userId)
+        public async Task<User> GetUserById(Guid userId)
         {
-            throw new NotImplementedException();
+            return await _context.Users.FirstOrDefaultAsync(s => s.Id == userId);
         }
 
         public Task<User> GetUserByName(string userName)

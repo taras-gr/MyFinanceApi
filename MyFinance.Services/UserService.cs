@@ -18,7 +18,7 @@ namespace MyFinance.Services
             _userRepository = userRepository;
         }
 
-        public async Task<User> GetUserById(ObjectId userId)
+        public async Task<User> GetUserById(Guid userId)
         {
             return await _userRepository.GetUserById(userId);
         }

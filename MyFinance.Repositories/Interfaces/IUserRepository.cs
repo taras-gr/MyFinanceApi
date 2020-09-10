@@ -9,7 +9,7 @@ namespace MyFinance.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        Task<User> GetUserById(ObjectId userId);
+        Task<User> GetUserById(Guid userId);
         Task<User> GetUserByName(string userName);
         Task<User> GetUserByEmail(string email);
         Task<List<User>> GetUsers();
