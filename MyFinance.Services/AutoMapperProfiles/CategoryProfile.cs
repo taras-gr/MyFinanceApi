@@ -4,11 +4,11 @@ using MyFinance.Services.DataTransferObjects;
 
 namespace MyFinance.Services.AutoMapperProfiles
 {
-    public class ExpenseCategoryProfile : Profile
+    public class CategoryProfile : Profile
     {
-        public ExpenseCategoryProfile()
+        public CategoryProfile()
         {
-            CreateMap<CategoryForCreationDto, ExpenseCategory>();
+            CreateMap<CategoryForCreationDto, Category>();
         }
     }
 }

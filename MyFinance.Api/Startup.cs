@@ -10,8 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using MyFinance.Domain.Interfaces.Repositories;
 using MyFinance.Repositories;
+using MyFinance.Repositories.Interfaces;
 using MyFinance.Repositories.Repositories;
 using MyFinance.Services;
 using MyFinance.Services.Interfaces;
@@ -46,10 +46,10 @@ namespace MyFinance.Api
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            var connectionString = @"Server=localhost;Database=MyFinanceDb;User Id=sa;Password=1234sql@;";
+            var sqlServerConnectionString = Configuration.GetConnectionString("SqlServer");
 
             services.AddDbContext<MyFinanceContext>(options =>
-                options.UseSqlServer(connectionString).UseLoggerFactory(GetLoggerFactory()));
+                options.UseSqlServer(sqlServerConnectionString).UseLoggerFactory(GetLoggerFactory()).EnableSensitiveDataLogging(true));
 
             var jwtSettings = Configuration.GetSection("JwtSettings");
             services.Configure<JwtSettings>(jwtSettings);

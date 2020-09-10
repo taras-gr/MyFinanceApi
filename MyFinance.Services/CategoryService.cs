@@ -1,7 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyFinance.Domain.Interfaces.Repositories;
 using MyFinance.Domain.Models;
+using MyFinance.Repositories.Interfaces;
 using MyFinance.Services.Interfaces;
 
 namespace MyFinance.Services
@@ -15,16 +16,32 @@ namespace MyFinance.Services
             _categoryRepository = categoryRepository;
         }
 
-        public async Task AddCategory(Guid userId, ExpenseCategory expenseCategory)
+        public async Task<IEnumerable<Category>> GetUserCategories(string userId)
         {
-            await _categoryRepository.AddCategory(userId, expenseCategory);
+            var userIdGuid = new Guid(userId);
+
+            return await _categoryRepository.GetUserCategories(userIdGuid);
+        }
+
+        public async Task<Category> GetUserCategoryById(string userId, string categoryId)
+        {
+            var userIdGuid = new Guid(userId);
+            return await _categoryRepository.GetUserCategoryById(userIdGuid, new Guid(categoryId));
+        }
+
+        public async Task AddCategory(string userId, Category category)
+        {
+            var userIdGuid = new Guid(userId);
+            await _categoryRepository.AddCategory(userIdGuid, category);
             await _categoryRepository.Save();
         }
 
-        public Task<ExpenseCategory> GetCategoryById(Guid userId)
+        public async Task DeleteUserCategoryById(string userId, Guid categoryId)
         {
-            throw new NotImplementedException();
-        }
+            var userIdGuid = new Guid(userId);
+            await _categoryRepository.DeleteUserCategoryById(userIdGuid, categoryId);
+            await _categoryRepository.Save();
+        }        
 
         public Task<int> Save()
         {

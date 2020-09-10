@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using MyFinance.Domain.Interfaces.Repositories;
+using Microsoft.EntityFrameworkCore;
 using MyFinance.Domain.Models;
+using MyFinance.Repositories.Interfaces;
 
 namespace MyFinance.Repositories.Repositories
 {
@@ -14,16 +17,36 @@ namespace MyFinance.Repositories.Repositories
             _context = context;
         }
 
-        public async Task AddCategory(Guid userId, ExpenseCategory expenseCategory)
+        public async Task<IEnumerable<Category>> GetUserCategories(Guid userId)
         {
-            expenseCategory.UserId = userId;
-            await _context.AddAsync(expenseCategory);
+            var categoriesToReturn = await _context.Categories
+                .Where(s => s.UserId == userId).ToListAsync();
+
+            return categoriesToReturn;
         }
 
-        public Task<ExpenseCategory> GetCategoryById(Guid userId)
+        public async Task<Category> GetUserCategoryById(Guid userId, Guid categoryId)
         {
-            throw new NotImplementedException();
+            var categoryToReturn = await _context.Categories
+                .FirstOrDefaultAsync(s => s.UserId == userId && s.Id == categoryId);
+
+            return categoryToReturn;
         }
+
+        public async Task AddCategory(Guid userId, Category category)
+        {
+            category.UserId = userId;
+
+            await _context.Categories.AddAsync(category);
+        }
+
+        public async Task DeleteUserCategoryById(Guid userId, Guid categoryId)
+        {
+            var categoryToDelete = await _context.Categories
+                .FirstOrDefaultAsync(s => s.UserId == userId && s.Id == categoryId);
+
+            _context.Categories.Remove(categoryToDelete);
+        }      
 
         public async Task<int> Save()
         {

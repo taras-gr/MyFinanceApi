@@ -45,7 +45,8 @@ namespace MyFinance.Api.Controllers
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("Id", addedUser.Id.ToString())
+                        new Claim("Id", addedUser.Id.ToString()),
+                        new Claim("UserName", addedUser.UserName.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Value.JwtSecret)), SecurityAlgorithms.HmacSha256Signature)
@@ -72,7 +73,8 @@ namespace MyFinance.Api.Controllers
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserId", userFromRepo.Id.ToString())
+                        new Claim("Id", userFromRepo.Id.ToString()),
+                        new Claim("UserName", userFromRepo.UserName.ToString())
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Value.JwtSecret)), SecurityAlgorithms.HmacSha256Signature)

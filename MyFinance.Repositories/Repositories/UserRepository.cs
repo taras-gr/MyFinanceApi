@@ -2,7 +2,6 @@
 using MongoDB.Bson;
 using MongoDB.Driver;
 using MyFinance.Domain;
-using MyFinance.Domain.Interfaces.Repositories;
 using MyFinance.Domain.Models;
 using System;
 using System.Collections.Generic;

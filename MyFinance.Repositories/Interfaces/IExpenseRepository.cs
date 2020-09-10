@@ -1,16 +1,18 @@
+﻿using MyFinance.Domain.Models;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
-using MyFinance.Domain.Models;
 
-namespace MyFinance.Domain.Interfaces.Repositories
+namespace MyFinance.Repositories.Interfaces
 {
-    public interface ICategoryRepository
+    public interface IExpenseRepository
     {
-        Task<ExpenseCategory> GetCategoryById(Guid userId);
+        Task<Expense> GetExpenseById(Guid userId);
         //Task<User> GetUserByName(string userName);
         //Task<User> GetUserByEmail(string email);
         //Task<List<User>> GetUsers();
-        Task AddCategory(Guid userId, ExpenseCategory expense);
+        Task AddExpense(Guid userId, Expense expense);
         //Task<bool> UpdateUser(string userId, User user);
         //Task<bool> DeleteUser(string userId);
         Task<int> Save();

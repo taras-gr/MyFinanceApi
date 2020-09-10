@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MyFinance.Domain.Models
 {
-    public class ExpenseCategory
+    public class Category
     {
         [Key]
         public Guid Id { get; set; }

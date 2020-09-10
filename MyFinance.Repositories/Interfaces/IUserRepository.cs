@@ -1,9 +1,11 @@
 ﻿using MongoDB.Bson;
 using MyFinance.Domain.Models;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace MyFinance.Domain.Interfaces.Repositories
+namespace MyFinance.Repositories.Interfaces
 {
     public interface IUserRepository
     {

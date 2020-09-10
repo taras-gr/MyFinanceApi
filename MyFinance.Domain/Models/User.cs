@@ -25,7 +25,7 @@ namespace MyFinance.Domain.Models
         public ICollection<Expense> Expenses { get; set; }
             = new List<Expense>();
 
-        public ICollection<ExpenseCategory> ExpenseCategories { get; set; } 
-            = new List<ExpenseCategory>();
+        public ICollection<Category> ExpenseCategories { get; set; } 
+            = new List<Category>();
     }
 }

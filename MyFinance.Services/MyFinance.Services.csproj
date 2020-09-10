@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyFinance.Domain\MyFinance.Domain.csproj" />
+    <ProjectReference Include="..\MyFinance.Repositories\MyFinance.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
