@@ -33,6 +33,14 @@ namespace MyFinance.Repositories.Repositories
             return categoryToReturn;
         }
 
+        public async Task<Category> GetUserCategoryByTitle(Guid userId, string categoryTitle)
+        {
+            var categoryToReturn = await _context.Categories
+                .FirstOrDefaultAsync(s => s.UserId == userId && s.Title == categoryTitle);
+
+            return categoryToReturn;
+        }
+
         public async Task AddCategory(Guid userId, Category category)
         {
             category.UserId = userId;
