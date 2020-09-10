@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 using MyFinance.Services.Interfaces;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +24,7 @@ namespace MyFinance.Api.Controllers
         {
             string id = User.Claims.First(c => c.Type == "UserId").Value;
 
-            ObjectId userId = new ObjectId(id);
+            Guid userId = new Guid(id);
 
             var user = await _userService.GetUserById(userId);
 
