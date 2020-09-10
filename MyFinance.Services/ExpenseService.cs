@@ -28,6 +28,11 @@ namespace MyFinance.Services
             throw new NotImplementedException();
         }
 
+        public async Task<Expense> GetUserExpenseById(Guid userId, Guid expenseId)
+        {
+            return await _repository.GetUserExpenseById(userId, expenseId);
+        }
+
         public Task<int> Save()
         {
             throw new NotImplementedException();

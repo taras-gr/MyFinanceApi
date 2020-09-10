@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using MyFinance.Api.Helpers;
 using MyFinance.Domain.Models;
 using MyFinance.Services.DataTransferObjects;
 using MyFinance.Services.Interfaces;
@@ -15,36 +16,73 @@ namespace MyFinance.Api.Controllers
     [Route("api/users/{userName}/expenses")]
     public class ExpenseController : ControllerBase
     {
-        private readonly IUserService _userService;
         private readonly IExpenseService _expenseService;
+        private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
         private readonly IOptions<JwtSettings> _jwtSettings;
 
         public ExpenseController(
-            IUserService userService,
             IExpenseService expenseService,
+            ICategoryService categoryService,
             IMapper mapper,
             IOptions<JwtSettings> jwtSettings)
         {
-            _userService = userService;
             _expenseService = expenseService;
+            _categoryService = categoryService;
             _mapper = mapper;
             _jwtSettings = jwtSettings;
         }
 
+        [HttpGet("{expenseId}", Name = "GetUserExpenseById")]
+        [Authorize]
+        public async Task<ActionResult<ExpenseDto>> GetUserExpenseById(string userName, Guid expenseId)
+        {
+            var userIdFromToken = User.GetUserIdAsGuid();
+            string currentUserName = User.GetUserName();
+
+            if (currentUserName != userName)
+            {
+                return Unauthorized();
+            }
+
+            var expenseFromRepo = await _expenseService.GetUserExpenseById(userIdFromToken, expenseId);
+
+            if(expenseFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(expenseFromRepo);
+        }
+
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> AddExpenseForUser([FromBody] ExpenseForCreationDto expense)
+        public async Task<ActionResult> AddExpenseForUser(string userName, [FromBody] ExpenseForCreationDto expense)
         {
-            var expenseToAdd = _mapper.Map<Expense>(expense);
+            var userIdFromToken = User.GetUserIdAsGuid();
+            string currentUserName = User.GetUserName();
 
-            string userIdFromToken = User.Claims.First(c => c.Type == "Id").Value;
+            if (currentUserName != userName)
+            {
+                return Unauthorized();
+            }
 
-            var userId = new Guid(userIdFromToken);
+            var expenseEntity = _mapper.Map<Expense>(expense);
+            var categoryTitleFromExpense = expenseEntity.Category;
 
-            await _expenseService.AddExpense(userId, expenseToAdd);
+            if(! await _categoryService
+                .CategoryExistForSpecificUser(userIdFromToken, categoryTitleFromExpense))
+            {
+                return BadRequest();
+            }
 
-            return Ok();
+            await _expenseService.AddExpense(userIdFromToken, expenseEntity);
+
+            var expenseToReturn = _mapper.Map<ExpenseDto>(expenseEntity);
+
+            return CreatedAtRoute("GetUserExpenseById",
+                new { userName = currentUserName, expenseId = expenseToReturn.Id },
+                expenseToReturn);
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿using MyFinance.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using MyFinance.Domain.Models;
 using MyFinance.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +27,14 @@ namespace MyFinance.Repositories.Repositories
         public Task<Expense> GetExpenseById(Guid userId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Expense> GetUserExpenseById(Guid userId, Guid expenseId)
+        {
+            var expenseToReturn = await _context.Expenses
+                .FirstOrDefaultAsync(s => s.UserId == userId && s.Id == expenseId);
+
+            return expenseToReturn;
         }
 
         public async Task<int> Save()

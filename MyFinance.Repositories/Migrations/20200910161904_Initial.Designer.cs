@@ -10,8 +10,8 @@ using MyFinance.Repositories.Repositories;
 namespace MyFinance.Repositories.Migrations
 {
     [DbContext(typeof(MyFinanceContext))]
-    [Migration("20200908120659_FixedDbStructure")]
-    partial class FixedDbStructure
+    [Migration("20200910161904_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,12 +21,30 @@ namespace MyFinance.Repositories.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("MyFinance.Domain.Models.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("MyFinance.Domain.Models.Expense", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
@@ -45,25 +63,6 @@ namespace MyFinance.Repositories.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Expenses");
-                });
-
-            modelBuilder.Entity("MyFinance.Domain.Models.ExpenseCategory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ExpenseCategories");
                 });
 
             modelBuilder.Entity("MyFinance.Domain.Models.User", b =>
@@ -92,19 +91,19 @@ namespace MyFinance.Repositories.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("MyFinance.Domain.Models.Expense", b =>
+            modelBuilder.Entity("MyFinance.Domain.Models.Category", b =>
                 {
                     b.HasOne("MyFinance.Domain.Models.User", "User")
-                        .WithMany("Expenses")
+                        .WithMany("ExpenseCategories")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MyFinance.Domain.Models.ExpenseCategory", b =>
+            modelBuilder.Entity("MyFinance.Domain.Models.Expense", b =>
                 {
                     b.HasOne("MyFinance.Domain.Models.User", "User")
-                        .WithMany("ExpenseCategories")
+                        .WithMany("Expenses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
