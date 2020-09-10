@@ -12,6 +12,6 @@ namespace MyFinance.Services.Interfaces
         Task<Category> GetUserCategoryById(string userId, string categoryId);
         Task AddCategory(string userId, Category category);
         Task DeleteUserCategoryById(string userId, Guid categoryId);
-        Task<int> Save();
+        Task<bool> CategoryExistForSpecificUser(Guid userId, string categoryTitle);
     }
 }

@@ -43,9 +43,11 @@ namespace MyFinance.Services
             await _categoryRepository.Save();
         }        
 
-        public Task<int> Save()
+        public async Task<bool> CategoryExistForSpecificUser(Guid userId, string categoryTitle)
         {
-            throw new NotImplementedException();
+            var categoryFromRepo = await _categoryRepository.GetUserCategoryByTitle(userId, categoryTitle);
+
+            return categoryFromRepo == null ? false : true;
         }
     }
 }
