@@ -22,7 +22,7 @@ namespace MyFinance.Api.Controllers
         //GET : /api/UserProfile
         public async Task<object> GetUserProfile()
         {
-            string id = User.Claims.First(c => c.Type == "UserId").Value;
+            string id = User.Claims.First(c => c.Type == "Id").Value;
 
             Guid userId = new Guid(id);
 
