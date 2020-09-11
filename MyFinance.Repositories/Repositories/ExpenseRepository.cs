@@ -37,6 +37,13 @@ namespace MyFinance.Repositories.Repositories
             return expenseToReturn;
         }
 
+        public async Task<IEnumerable<Expense>> GetUserExpenses(Guid userId)
+        {
+            var expensesToReturn = await _context.Expenses.Where(s => s.UserId == userId).ToListAsync();
+
+            return expensesToReturn;
+        }
+
         public async Task<int> Save()
         {
             return await _context.SaveChangesAsync();

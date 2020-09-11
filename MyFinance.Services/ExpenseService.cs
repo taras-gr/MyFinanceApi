@@ -33,6 +33,11 @@ namespace MyFinance.Services
             return await _repository.GetUserExpenseById(userId, expenseId);
         }
 
+        public Task<IEnumerable<Expense>> GetUserExpenses(Guid userId)
+        {
+            return await _repository.
+        }
+
         public Task<int> Save()
         {
             throw new NotImplementedException();
