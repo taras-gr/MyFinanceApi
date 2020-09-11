@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using MyFinance.Api.Helpers;
 using MyFinance.Domain.Models;
 using MyFinance.Services.DataTransferObjects;
 using MyFinance.Services.Interfaces;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MyFinance.Api.Controllers
@@ -19,18 +17,15 @@ namespace MyFinance.Api.Controllers
         private readonly IExpenseService _expenseService;
         private readonly ICategoryService _categoryService;
         private readonly IMapper _mapper;
-        private readonly IOptions<JwtSettings> _jwtSettings;
 
         public ExpenseController(
             IExpenseService expenseService,
             ICategoryService categoryService,
-            IMapper mapper,
-            IOptions<JwtSettings> jwtSettings)
+            IMapper mapper)
         {
             _expenseService = expenseService;
             _categoryService = categoryService;
             _mapper = mapper;
-            _jwtSettings = jwtSettings;
         }
 
         [HttpGet("{expenseId}", Name = "GetUserExpenseById")]
