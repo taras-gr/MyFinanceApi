@@ -33,9 +33,9 @@ namespace MyFinance.Services
             return await _repository.GetUserExpenseById(userId, expenseId);
         }
 
-        public Task<IEnumerable<Expense>> GetUserExpenses(Guid userId)
+        public async Task<IEnumerable<Expense>> GetUserExpenses(Guid userId)
         {
-            return await _repository.
+            return await _repository.GetUserExpenses(userId);
         }
 
         public Task<int> Save()

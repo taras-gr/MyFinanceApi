@@ -6,6 +6,8 @@ using MyFinance.Domain.Models;
 using MyFinance.Services.DataTransferObjects;
 using MyFinance.Services.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace MyFinance.Api.Controllers
@@ -48,6 +50,24 @@ namespace MyFinance.Api.Controllers
             }
 
             return Ok(expenseFromRepo);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<ExpenseDto>>> GetUserExpenses(string userName)
+        {
+            var userIdFromToken = User.GetUserIdAsGuid();
+            string currentUserName = User.GetUserName();
+
+            if (currentUserName != userName)
+            {
+                return Unauthorized();
+            }
+
+            var expensesFromRepo = await _expenseService.GetUserExpenses(userIdFromToken);
+            var expenses = _mapper.Map<IEnumerable<ExpenseDto>>(expensesFromRepo);
+
+            return Ok(expenses);
         }
 
         [HttpPost]
