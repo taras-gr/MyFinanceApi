@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFinance.Domain.Models;
 using MyFinance.Repositories.Interfaces;
+using MyFinance.Repositories.ResourceParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,11 +38,27 @@ namespace MyFinance.Repositories.Repositories
             return expenseToReturn;
         }
 
-        public async Task<IEnumerable<Expense>> GetUserExpenses(Guid userId)
+        public async Task<IEnumerable<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters)
         {
-            var expensesToReturn = await _context.Expenses.Where(s => s.UserId == userId).ToListAsync();
+            if (expensesResourceParameters == null)
+            {
+                throw new ArgumentNullException(nameof(ExpensesResourceParameters));
+            }
 
-            return expensesToReturn;
+            var collection = _context.Expenses as IQueryable<Expense>;
+
+            collection = collection.Where(s => s.UserId == userId);
+
+            if (!string.IsNullOrEmpty(expensesResourceParameters.SearchQuery))
+            {
+                var searchQuery = expensesResourceParameters.SearchQuery.Trim();
+                collection = collection.Where(s => s.Title.Contains(searchQuery)
+                || s.Category.Contains(searchQuery));
+            }
+
+            var listToReturn = await collection.ToListAsync();
+
+            return listToReturn;
         }
 
         public async Task<int> Save()

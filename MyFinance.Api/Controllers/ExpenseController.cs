@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyFinance.Api.Helpers;
 using MyFinance.Domain.Models;
+using MyFinance.Repositories.ResourceParameters;
 using MyFinance.Services.DataTransferObjects;
 using MyFinance.Services.Interfaces;
 using System;
@@ -54,7 +55,8 @@ namespace MyFinance.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<ExpenseDto>>> GetUserExpenses(string userName)
+        public async Task<ActionResult<IEnumerable<ExpenseDto>>> GetUserExpenses(string userName, 
+            [FromQuery] ExpensesResourceParameters expensesResourceParameters)
         {
             var userIdFromToken = User.GetUserIdAsGuid();
             string currentUserName = User.GetUserName();
@@ -64,7 +66,7 @@ namespace MyFinance.Api.Controllers
                 return Unauthorized();
             }
 
-            var expensesFromRepo = await _expenseService.GetUserExpenses(userIdFromToken);
+            var expensesFromRepo = await _expenseService.GetUserExpenses(userIdFromToken, expensesResourceParameters);
             var expenses = _mapper.Map<IEnumerable<ExpenseDto>>(expensesFromRepo);
 
             return Ok(expenses);

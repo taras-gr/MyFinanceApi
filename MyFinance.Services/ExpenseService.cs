@@ -1,5 +1,6 @@
 ﻿using MyFinance.Domain.Models;
 using MyFinance.Repositories.Interfaces;
+using MyFinance.Repositories.ResourceParameters;
 using MyFinance.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -33,9 +34,9 @@ namespace MyFinance.Services
             return await _repository.GetUserExpenseById(userId, expenseId);
         }
 
-        public async Task<IEnumerable<Expense>> GetUserExpenses(Guid userId)
+        public async Task<IEnumerable<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters)
         {
-            return await _repository.GetUserExpenses(userId);
+            return await _repository.GetUserExpenses(userId, expensesResourceParameters);
         }
 
         public Task<int> Save()
