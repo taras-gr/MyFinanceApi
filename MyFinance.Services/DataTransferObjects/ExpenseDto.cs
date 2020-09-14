@@ -12,6 +12,8 @@ namespace MyFinance.Services.DataTransferObjects
 
         public DateTimeOffset ExpenseDate { get; set; }
 
+        public int Cost { get; set; }
+
         public Guid UserId { get; set; }
     }
 }

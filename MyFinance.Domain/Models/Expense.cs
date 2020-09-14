@@ -15,6 +15,8 @@ namespace MyFinance.Domain.Models
 
         public DateTimeOffset ExpenseDate { get; set; }
 
+        public int Cost { get; set; }
+
         [ForeignKey("UserId")]
         public User User { get; set; }
 
