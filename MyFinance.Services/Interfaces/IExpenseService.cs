@@ -1,4 +1,5 @@
 ﻿using MyFinance.Domain.Models;
+using MyFinance.Repositories.Helpers;
 using MyFinance.Repositories.ResourceParameters;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace MyFinance.Services.Interfaces
     public interface IExpenseService
     {
         Task<Expense> GetUserExpenseById(Guid userId, Guid expenseId);
-        Task<IEnumerable<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters);
+        Task<PagedList<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters);
         //Task<User> GetUserByName(string userName);
         //Task<User> GetUserByEmail(string email);
         //Task<List<User>> GetUsers();

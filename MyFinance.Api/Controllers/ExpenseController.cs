@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyFinance.Api.Helpers;
 using MyFinance.Domain.Models;
+using MyFinance.Repositories.Helpers;
 using MyFinance.Repositories.ResourceParameters;
 using MyFinance.Services.DataTransferObjects;
 using MyFinance.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MyFinance.Api.Controllers
@@ -55,7 +57,7 @@ namespace MyFinance.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<ExpenseDto>>> GetUserExpenses(string userName, 
+        public async Task<ActionResult<PagedList<Expense>>> GetUserExpenses(string userName, 
             [FromQuery] ExpensesResourceParameters expensesResourceParameters)
         {
             var userIdFromToken = User.GetUserIdAsGuid();
@@ -67,6 +69,18 @@ namespace MyFinance.Api.Controllers
             }
 
             var expensesFromRepo = await _expenseService.GetUserExpenses(userIdFromToken, expensesResourceParameters);
+
+            var paginationMetaData = new
+            {
+                totalCount = expensesFromRepo.TotalCount,
+                pageSize = expensesFromRepo.PageSize,
+                currentPage = expensesFromRepo.CurrentPage,
+                totalPages = expensesFromRepo.TotalPages
+            };
+
+            Response.Headers.Add("X-Pagination",
+                JsonSerializer.Serialize(paginationMetaData));
+
             var expenses = _mapper.Map<IEnumerable<ExpenseDto>>(expensesFromRepo);
 
             return Ok(expenses);

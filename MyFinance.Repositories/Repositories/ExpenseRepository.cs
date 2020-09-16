@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFinance.Domain.Models;
+using MyFinance.Repositories.Helpers;
 using MyFinance.Repositories.Interfaces;
 using MyFinance.Repositories.ResourceParameters;
 using System;
@@ -38,7 +39,7 @@ namespace MyFinance.Repositories.Repositories
             return expenseToReturn;
         }
 
-        public async Task<IEnumerable<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters)
+        public async Task<PagedList<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters)
         {
             if (expensesResourceParameters == null)
             {
@@ -49,14 +50,19 @@ namespace MyFinance.Repositories.Repositories
 
             collection = collection.Where(s => s.UserId == userId);
 
-            if (!string.IsNullOrEmpty(expensesResourceParameters.SearchQuery))
+            if (!string.IsNullOrWhiteSpace(expensesResourceParameters.SearchQuery))
             {
                 var searchQuery = expensesResourceParameters.SearchQuery.Trim();
                 collection = collection.Where(s => s.Title.Contains(searchQuery)
                 || s.Category.Contains(searchQuery));
             }
 
-            var listToReturn = await collection.ToListAsync();
+            if (!string.IsNullOrWhiteSpace(expensesResourceParameters.OrderBy))
+            {
+                collection = collection.ApplySort(expensesResourceParameters.OrderBy);
+            }
+
+            var listToReturn = await PagedList<Expense>.Create(collection, expensesResourceParameters.PageNumber, expensesResourceParameters.PageSize);
 
             return listToReturn;
         }
