@@ -1,14 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using MyFinance.Domain;
-using MyFinance.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyFinance.Repositories.Repositories
+﻿namespace MyFinance.Repositories.Repositories
 {
     //public class UserRepository : IUserRepository
     //{

@@ -1,6 +1,4 @@
-﻿using MongoDB.Driver;
-
-namespace MyFinance.Repositories
+﻿namespace MyFinance.Repositories
 {
     public class MongoDbSettings
     {

@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using MyFinance.Domain.Models;
+﻿using MyFinance.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

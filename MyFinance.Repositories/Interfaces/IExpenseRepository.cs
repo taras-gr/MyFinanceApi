@@ -2,8 +2,6 @@
 using MyFinance.Repositories.Helpers;
 using MyFinance.Repositories.ResourceParameters;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MyFinance.Repositories.Interfaces

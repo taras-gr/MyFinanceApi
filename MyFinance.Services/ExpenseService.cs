@@ -4,8 +4,6 @@ using MyFinance.Repositories.Interfaces;
 using MyFinance.Repositories.ResourceParameters;
 using MyFinance.Services.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MyFinance.Services

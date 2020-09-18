@@ -1,17 +1,11 @@
 using System;
-using System.Text;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using MyFinance.Api.Helpers;
-using MyFinance.Repositories;
 using MyFinance.Repositories.Interfaces;
 using MyFinance.Repositories.Repositories;
 using MyFinance.Services;

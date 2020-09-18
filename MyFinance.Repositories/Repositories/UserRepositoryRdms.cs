@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
 using MyFinance.Domain.Models;
 using MyFinance.Repositories.Interfaces;
 using System;

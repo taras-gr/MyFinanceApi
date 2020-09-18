@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using MyFinance.Domain;
 using MyFinance.Domain.Models;
 
 namespace MyFinance.Repositories

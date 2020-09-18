@@ -7,10 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using MyFinance.Repositories;
 using MyFinance.Repositories.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MyFinance.Api.Helpers
 {

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using MyFinance.Domain.Models;
 using MyFinance.Services.DataTransferObjects;
 using MyFinance.Services.Interfaces;

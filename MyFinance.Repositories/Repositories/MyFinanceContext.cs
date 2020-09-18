@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFinance.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MyFinance.Repositories.Repositories
 {
