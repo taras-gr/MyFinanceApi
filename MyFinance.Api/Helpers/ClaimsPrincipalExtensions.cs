@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyFinance.Api.Helpers
 {
-    public static class Extensions
+    public static class ClaimsPrincipalExtensions
     {
         public static Guid GetUserIdAsGuid(this ClaimsPrincipal user)
         {
