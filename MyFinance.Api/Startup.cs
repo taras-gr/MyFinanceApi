@@ -45,40 +45,17 @@ namespace MyFinance.Api
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());            
 
-            var sqlServerConnectionString = Configuration.GetConnectionString("SqlServer");
+            services.ConfigureSqlDbContext(Configuration);
 
-            services.AddDbContext<MyFinanceContext>(options =>
-                options.UseSqlServer(sqlServerConnectionString).UseLoggerFactory(GetLoggerFactory()).EnableSensitiveDataLogging(true));
+            services.ConfigureJwtSetting(Configuration);
 
-            var jwtSettings = Configuration.GetSection("JwtSettings");
-            services.Configure<JwtSettings>(jwtSettings);
+            services.ConfigureMongoDbSettings(Configuration);
 
-            var mongoDbSettings = Configuration.GetSection("MongoDbSettings");
-            services.Configure<MongoDbSettings>(mongoDbSettings);
+            services.ConfigureJwtAuthentication(Configuration);
 
-            services.AddCors();
-
-            var key = Encoding.UTF8.GetBytes(Configuration["JwtSettings:JwtSecret"]);
-
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x => {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = false;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+            services.ConfigureCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,7 +66,7 @@ namespace MyFinance.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithExposedHeaders("X-Pagination"));
+            app.UseCors("DevelopmentPolicy");
 
             app.UseHttpsRedirection();
 
@@ -103,17 +80,6 @@ namespace MyFinance.Api
             {
                 endpoints.MapControllers();
             });
-        }
-
-        private ILoggerFactory GetLoggerFactory()
-        {
-            IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddLogging(builder =>
-                   builder.AddConsole()
-                          .AddFilter(DbLoggerCategory.Database.Command.Name,
-                                     LogLevel.Information));
-            return serviceCollection.BuildServiceProvider()
-                    .GetService<ILoggerFactory>();
-        }
+        }   
     }
 }
