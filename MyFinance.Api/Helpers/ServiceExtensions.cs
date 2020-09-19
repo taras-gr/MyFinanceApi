@@ -18,7 +18,7 @@ namespace MyFinance.Api.Helpers
             services.AddCors(options =>
             {
                 options.AddPolicy("DevelopmentPolicy",
-                    builder => builder.AllowAnyOrigin()
+                    builder => builder.WithOrigins("http://localhost:4200")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .WithExposedHeaders("X-Pagination"));
