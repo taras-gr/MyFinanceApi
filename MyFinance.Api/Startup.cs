@@ -39,6 +39,8 @@ namespace MyFinance.Api
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
+            services.AddScoped<IStatisticsService, StatisticsService>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());            
 
             services.ConfigureSqlDbContext(Configuration);
