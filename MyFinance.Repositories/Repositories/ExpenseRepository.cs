@@ -37,7 +37,7 @@ namespace MyFinance.Repositories.Repositories
             return expenseToReturn;
         }
 
-        public async Task<PagedList<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters)
+        public async Task<IQueryable<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters)
         {
             if (expensesResourceParameters == null)
             {
@@ -60,9 +60,8 @@ namespace MyFinance.Repositories.Repositories
                 collection = collection.ApplySort(expensesResourceParameters.OrderBy);
             }
 
-            var listToReturn = await PagedList<Expense>.Create(collection, expensesResourceParameters.PageNumber, expensesResourceParameters.PageSize);
+            return await Task.Run(() => collection);
 
-            return listToReturn;
         }
 
         public async Task<int> Save()

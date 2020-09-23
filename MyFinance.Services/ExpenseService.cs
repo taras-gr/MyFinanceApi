@@ -35,7 +35,11 @@ namespace MyFinance.Services
 
         public async Task<PagedList<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters)
         {
-            return await _repository.GetUserExpenses(userId, expensesResourceParameters);
+            var collection = await _repository.GetUserExpenses(userId, expensesResourceParameters);
+
+            var listToReturn = await PagedList<Expense>.Create(collection, expensesResourceParameters.PageNumber, expensesResourceParameters.PageSize);
+
+            return listToReturn;
         }
 
         public Task<int> Save()
