@@ -37,7 +37,8 @@ namespace MyFinance.Repositories.Repositories
             return expenseToReturn;
         }
 
-        public async Task<IQueryable<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters)
+        public async Task<IQueryable<Expense>> GetUserExpenses(Guid userId,
+            ExpensesResourceParameters expensesResourceParameters)
         {
             if (expensesResourceParameters == null)
             {
