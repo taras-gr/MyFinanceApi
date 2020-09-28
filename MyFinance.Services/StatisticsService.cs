@@ -41,15 +41,15 @@ namespace MyFinance.Services
                 case ExpenseGroupByProperty.ExpenseDate:
                     var queryByExpenseDate = expensesCollection
                         .Where(s => s.ExpenseDate >= startDate && s.ExpenseDate <= endDate)
+                        .OrderBy(o => o.ExpenseDate)
                         .GroupBy(
                             exp => exp.ExpenseDate,
                             exp => exp.Cost,
                             (date, costs) => new
                             {
-                                Day = date,
+                                Day = date.ToString("d"),
                                 Costs = costs.Sum()
-                            })
-                        .OrderBy(o => o.Day);
+                            });
 
                     return await queryByExpenseDate.ToListAsync();
                 case ExpenseGroupByProperty.Category:
