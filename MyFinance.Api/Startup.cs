@@ -27,6 +27,8 @@ namespace MyFinance.Api
         {
             services.AddControllers();
 
+            services.AddAWSService<Amazon.S3.IAmazonS3>();
+
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IUserRepository, UserRepositoryRdms>();
