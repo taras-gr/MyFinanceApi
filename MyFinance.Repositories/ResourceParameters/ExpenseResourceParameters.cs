@@ -2,7 +2,7 @@
 {
     public class ExpensesResourceParameters
     {
-        const int maxPageSize = 5;
+        const int maxPageSize = 20;
         public string SearchQuery { get; set; }
         public int PageNumber { get; set; } = 1;
         private int _pageSize = 2;
