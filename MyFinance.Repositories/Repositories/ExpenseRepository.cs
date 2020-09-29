@@ -65,6 +65,11 @@ namespace MyFinance.Repositories.Repositories
 
         }
 
+        public async Task DeleteExpense(Expense expenseToDelete)
+        {
+            await Task.Run(() => _context.Expenses.Remove(expenseToDelete));
+        }
+
         public async Task<int> Save()
         {
             return await _context.SaveChangesAsync();

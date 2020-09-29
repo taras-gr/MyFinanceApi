@@ -1,4 +1,5 @@
-﻿using MyFinance.Domain.Models;
+﻿using MongoDB.Driver;
+using MyFinance.Domain.Models;
 using MyFinance.Repositories.Helpers;
 using MyFinance.Repositories.Interfaces;
 using MyFinance.Repositories.ResourceParameters;
@@ -29,7 +30,7 @@ namespace MyFinance.Services
         }
 
         public async Task<Expense> GetUserExpenseById(Guid userId, Guid expenseId)
-        {
+        {          
             return await _repository.GetUserExpenseById(userId, expenseId);
         }
 
@@ -42,9 +43,25 @@ namespace MyFinance.Services
             return listToReturn;
         }
 
+        public async Task DeleteUserExpenseById(Guid userId, Guid expenseId)
+        {
+            var expenseToDelete = await this.GetUserExpenseById(userId, expenseId);
+
+            await _repository.DeleteExpense(expenseToDelete);
+
+            await _repository.Save();
+        }
+
         public Task<int> Save()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> ExpenseExistForUser(Guid userId, Guid expenseId)
+        {
+            var expense = await _repository.GetUserExpenseById(userId, expenseId);
+
+            return expense != null;
         }
     }
 }

@@ -15,6 +15,7 @@ namespace MyFinance.Services.Interfaces
         //Task<List<User>> GetUsers();
         Task AddExpense(Guid userId, Expense expense);
         //Task<bool> UpdateUser(string userId, User user);
-        //Task<bool> DeleteUser(string userId);
+        Task DeleteUserExpenseById(Guid userId, Guid expenseId);
+        Task<bool> ExpenseExistForUser(Guid userId, Guid expenseId);
     }
 }
