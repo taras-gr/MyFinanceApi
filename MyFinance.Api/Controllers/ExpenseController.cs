@@ -56,7 +56,7 @@ namespace MyFinance.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<PagedList<Expense>>> GetUserExpenses(string userName, 
+        public async Task<ActionResult<PagedList<Expense>>> GetUserExpenses(string userName,
             [FromQuery] ExpensesResourceParameters expensesResourceParameters)
         {
             var userIdFromToken = User.GetUserIdAsGuid();
@@ -100,7 +100,7 @@ namespace MyFinance.Api.Controllers
             var expenseEntity = _mapper.Map<Expense>(expense);
             var categoryTitleFromExpense = expenseEntity.Category;
 
-            if(! await _categoryService
+            if(!await _categoryService
                 .CategoryExistForSpecificUser(userIdFromToken, categoryTitleFromExpense))
             {
                 return BadRequest();
@@ -113,6 +113,28 @@ namespace MyFinance.Api.Controllers
             return CreatedAtRoute("GetUserExpenseById",
                 new { userName = currentUserName, expenseId = expenseToReturn.Id },
                 expenseToReturn);
+        }
+
+        [HttpDelete("{expenseId}")]
+        [Authorize]
+        public async Task<ActionResult> DeleteUserExpenseById(string userName, Guid expenseId)
+        {
+            var userIdFromToken = User.GetUserIdAsGuid();
+            string currentUserName = User.GetUserName();
+
+            if (currentUserName != userName)
+            {
+                return Unauthorized();
+            }
+
+            if (! await _expenseService.ExpenseExistForUser(userIdFromToken, expenseId))
+            {
+                return NotFound();
+            }
+
+            await _expenseService.DeleteUserExpenseById(userIdFromToken, expenseId);
+
+            return NoContent();
         }
     }
 }
