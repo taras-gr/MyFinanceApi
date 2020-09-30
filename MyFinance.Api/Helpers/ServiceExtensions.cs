@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MyFinance.Repositories;
@@ -54,7 +56,7 @@ namespace MyFinance.Api.Helpers
             });
         }
     
-        public static void ConfigureSqlDbContext(this IServiceCollection services, IConfiguration configuration)
+        public static void ConfigureSqlDbContext(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
         {
             var loggerFactory = new LoggerFactory();
             var sqlServerConnectionString = configuration.GetConnectionString("SqlServer");
@@ -63,7 +65,8 @@ namespace MyFinance.Api.Helpers
                 options
                 .UseSqlServer(sqlServerConnectionString)
                 .UseLoggerFactory(loggerFactory.GetLoggerFactory())
-                .EnableSensitiveDataLogging(true));
+                .EnableSensitiveDataLogging(env.IsDevelopment())
+               );
         }
 
         public static void ConfigureMongoDbSettings(this IServiceCollection services, IConfiguration configuration)
