@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="2.2.0" />
     <PackageReference Include="AWSSDK.S3" Version="3.3.110.58" />
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="5.1.5" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.100.1" />
