@@ -5,6 +5,10 @@
     <AWSProjectType>Lambda</AWSProjectType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>E:\MyFinance\MyFinanceApi\MyFinance.Api\MyFinance.Api.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <DotNetCliToolReference Include="Amazon.Lambda.Tools" Version="2.2.0" />
     <PackageReference Include="AWSSDK.S3" Version="3.3.110.58" />
@@ -18,6 +22,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.7.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
   </ItemGroup>
 

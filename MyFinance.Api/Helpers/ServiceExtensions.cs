@@ -6,9 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using MyFinance.Api.OperationFilters;
 using MyFinance.Repositories;
 using MyFinance.Repositories.Repositories;
+using MyFinance.Services.Helpers;
 using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace MyFinance.Api.Helpers
@@ -73,6 +78,47 @@ namespace MyFinance.Api.Helpers
         {
             var mongoDbSettings = configuration.GetSection("MongoDbSettings");
             services.Configure<MongoDbSettings>(mongoDbSettings);
+        }
+    
+        public static void ConfigureSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(setupAction =>
+            {
+                setupAction.SwaggerDoc(
+                    "MyFinanceApiOpenAPISecification",
+                    new Microsoft.OpenApi.Models.OpenApiInfo()
+                    {
+                        Title = "MyFinance API",
+                        Version = "1",
+                        Description = "Through this API you can access categories and expenses.",
+                        Contact = new Microsoft.OpenApi.Models.OpenApiContact()
+                        {
+                            Email = "tar.grytsenko@gmail.com",
+                            Name = "Tarik Batman",
+                            Url = new Uri("https://www.instagram.com/tarasgrytsenko")
+                        },
+                        License = new Microsoft.OpenApi.Models.OpenApiLicense()
+                        {
+                            Name = "MIT License",
+                            Url = new Uri("https://opensource.org/licenses/MIT")
+                        }
+                    });
+
+                setupAction.OperationFilter<AddAuthHeaderOperationFilter>();
+                setupAction.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+                {
+                    Description = "`Token only!!!` - without `Bearer_` prefix",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Scheme = "bearer"
+                });
+
+                var xmlDocFileName = Assembly.GetExecutingAssembly().GetName().Name + ".xml";
+                var absolutePathForDocs = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + xmlDocFileName);
+
+                setupAction.IncludeXmlComments(absolutePathForDocs);
+            });
         }
     }
 

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyFinance.Api</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "M:MyFinance.Api.LambdaEntryPoint.Init(Microsoft.AspNetCore.Hosting.IWebHostBuilder)" -->
+        <member name="M:MyFinance.Api.LambdaEntryPoint.Init(Microsoft.Extensions.Hosting.IHostBuilder)">
+            <summary>
+            Use this override to customize the services registered with the IHostBuilder. 
+            
+            It is recommended not to call ConfigureWebHostDefaults to configure the IWebHostBuilder inside this method.
+            Instead customize the IWebHostBuilder in the Init(IWebHostBuilder) overload.
+            </summary>
+            <param name="builder"></param>
+        </member>
+    </members>
+</doc>

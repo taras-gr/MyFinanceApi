@@ -58,6 +58,8 @@ namespace MyFinance.Api
             services.ConfigureJwtAuthentication(Configuration);
 
             services.ConfigureCors();
+
+            services.ConfigureSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +71,16 @@ namespace MyFinance.Api
             }
 
             app.UseCors("DevelopmentPolicy");
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(setupAction =>
+            {
+                setupAction.SwaggerEndpoint(
+                    "/swagger/MyFinanceApiOpenAPISecification/swagger.json",
+                    "MyFinanceAPI");
+                setupAction.RoutePrefix = "";
+            });
 
             app.UseHttpsRedirection();            
 
