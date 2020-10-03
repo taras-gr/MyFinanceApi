@@ -80,7 +80,7 @@ namespace MyFinance.Api.Helpers
             services.Configure<MongoDbSettings>(mongoDbSettings);
         }
     
-        public static void ConfigureSwagger(this IServiceCollection services)
+        public static void ConfigureSwagger(this IServiceCollection services, IWebHostEnvironment env)
         {
             services.AddSwaggerGen(setupAction =>
             {
@@ -103,6 +103,26 @@ namespace MyFinance.Api.Helpers
                             Url = new Uri("https://opensource.org/licenses/MIT")
                         }
                     });
+
+                OpenApiServerProvider openApiServerProvider = new OpenApiServerProvider();
+
+                if (env.IsDevelopment())
+                {
+                    openApiServerProvider.SetOpenApiServerBuilder(
+                        new DevelopmentServerBuilder()
+                    );
+                }
+
+                if(env.IsProduction())
+                {
+                    openApiServerProvider.SetOpenApiServerBuilder(
+                        new ProductionServerBuilder()
+                    );
+                }
+
+                openApiServerProvider.ConstructOpenApiServer();
+
+                setupAction.AddServer(openApiServerProvider.GetServer());
 
                 setupAction.OperationFilter<AddAuthHeaderOperationFilter>();
                 setupAction.AddSecurityDefinition("bearer", new OpenApiSecurityScheme

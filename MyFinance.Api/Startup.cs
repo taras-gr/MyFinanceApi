@@ -23,6 +23,7 @@ namespace MyFinance.Api
 
         public IConfiguration Configuration { get; }
         public IWebHostEnvironment WebHostEnvironment { get; }
+        public string API_PREFIX { get; private set; } = "/Prod";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -59,7 +60,7 @@ namespace MyFinance.Api
 
             services.ConfigureCors();
 
-            services.ConfigureSwagger();
+            services.ConfigureSwagger(WebHostEnvironment);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,7 +78,7 @@ namespace MyFinance.Api
             app.UseSwaggerUI(setupAction =>
             {
                 setupAction.SwaggerEndpoint(
-                    "/swagger/MyFinanceApiOpenAPISecification/swagger.json",
+                    $"{(WebHostEnvironment.IsDevelopment() ? "" : API_PREFIX)}/swagger/MyFinanceApiOpenAPISecification/swagger.json", 
                     "MyFinanceAPI");
                 setupAction.RoutePrefix = "";
             });
