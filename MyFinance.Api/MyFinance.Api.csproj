@@ -31,5 +31,11 @@
     <ProjectReference Include="..\MyFinance.Services\MyFinance.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="MyFinance.Api.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>
