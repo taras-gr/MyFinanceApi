@@ -45,6 +45,8 @@ namespace MyFinance.Api
 
             services.AddScoped<IStatisticsService, StatisticsService>();
 
+            services.AddScoped<IAuthenticationManagerService, AuthenticationManagerService>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());            
 
             services.ConfigureSqlDbContext(Configuration, WebHostEnvironment);
@@ -68,7 +70,7 @@ namespace MyFinance.Api
 
             app.UseCors("DevelopmentPolicy");
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection();            
 
             app.UseRouting();
 

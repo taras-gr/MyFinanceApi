@@ -12,23 +12,29 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using MyFinance.Api.Helpers;
+using Microsoft.AspNetCore.Authorization;
+using MyFinance.Services.Helpers;
 
 namespace MyFinance.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    [AllowAnonymous]
+    public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IAuthenticationManagerService _authenticationManagerService;
         private readonly IMapper _mapper;
         private readonly IOptions<JwtSettings> _jwtSettings;
 
-        public UserController(
+        public AuthController(
             IUserService userService,
+            IAuthenticationManagerService authenticationManagerService,
             IMapper mapper,
             IOptions<JwtSettings> jwtSettings)
         {
             _userService = userService;
+            _authenticationManagerService = authenticationManagerService;
             _mapper = mapper;
             _jwtSettings = jwtSettings;
         }
@@ -66,23 +72,10 @@ namespace MyFinance.Api.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult> Login([FromBody]UserForLoginDto user)
         {
-            var userFromRepo = await _userService.GetUserByEmail(user.Email);
+            var token = await _authenticationManagerService.AuthenticateAsync(user.Email, user.Password);
 
-            if (user != null && user.Password == userFromRepo.Password)
+            if (token != null)
             {
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("Id", userFromRepo.Id.ToString()),
-                        new Claim("UserName", userFromRepo.UserName.ToString())
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Value.JwtSecret)), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                var token = tokenHandler.WriteToken(securityToken);
                 return Ok(new { token });
             }
 
