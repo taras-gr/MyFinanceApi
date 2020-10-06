@@ -4,6 +4,6 @@ namespace MyFinance.Services.Interfaces
 {
     public interface IAuthenticationManagerService
     {
-        Task<string> AuthenticateAsync(string username, string password);
+        Task<(string, string)> AuthenticateAsync(string username, string password);
     }
 }

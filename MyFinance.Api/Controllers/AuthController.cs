@@ -61,7 +61,7 @@ namespace MyFinance.Api.Controllers
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
-                return Ok(new { token });
+                return Ok(new { token, addedUser.UserName });
             }
             catch (Exception ex)
             {
@@ -74,9 +74,9 @@ namespace MyFinance.Api.Controllers
         {
             var token = await _authenticationManagerService.AuthenticateAsync(user.Email, user.Password);
 
-            if (token != null)
+            if (token.Item1 != null && token.Item2 != null)
             {
-                return Ok(new { token });
+                return Ok(new { token = token.Item1, userName = token.Item2 });
             }
 
             return BadRequest(new { message = "Username or password is incorrect." });

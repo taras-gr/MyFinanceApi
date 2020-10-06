@@ -21,14 +21,14 @@ namespace MyFinance.Services
             _userRepository = userRepository;
         }
 
-        public async System.Threading.Tasks.Task<string> AuthenticateAsync(string email, string password)
+        public async System.Threading.Tasks.Task<(string, string)> AuthenticateAsync(string email, string password)
         {
             var userFromRepo = await _userRepository.GetUserByEmail(email);
             var secretKey = GetSecretKeyAsByteArray();
 
             if (userFromRepo == null || userFromRepo.Password != password)
             {
-                return null;
+                return (null, null);
             }
                
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -44,7 +44,7 @@ namespace MyFinance.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(securityToken);
-            return token;            
+            return (token, userFromRepo.UserName);            
         }
 
         private byte[] GetSecretKeyAsByteArray()
