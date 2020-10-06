@@ -9,6 +9,7 @@ namespace MyFinance.Repositories.Interfaces
 {
     public interface IExpenseRepository
     {
+        Task<Expense> GetExpenseById(Guid expenseId);
         Task<Expense> GetUserExpenseById(Guid userId, Guid expenseId);
         Task<IQueryable<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters);
         //Task<User> GetUserByName(string userName);

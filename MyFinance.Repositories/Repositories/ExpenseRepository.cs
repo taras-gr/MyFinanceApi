@@ -24,9 +24,12 @@ namespace MyFinance.Repositories.Repositories
             await _context.Expenses.AddAsync(expense);  
         }
 
-        public Task<Expense> GetExpenseById(Guid userId)
+        public async Task<Expense> GetExpenseById(Guid expenseId)
         {
-            throw new NotImplementedException();
+            var expenseToReturn = await _context.Expenses
+                .FirstOrDefaultAsync(s => s.Id == expenseId);
+
+            return expenseToReturn;
         }
 
         public async Task<Expense> GetUserExpenseById(Guid userId, Guid expenseId)
