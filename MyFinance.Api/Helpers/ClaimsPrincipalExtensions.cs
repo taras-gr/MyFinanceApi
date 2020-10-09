@@ -6,19 +6,26 @@ namespace MyFinance.Api.Helpers
 {
     public static class ClaimsPrincipalExtensions
     {
-        public static Guid GetUserIdAsGuid(this ClaimsPrincipal user)
+        public static Guid? GetUserIdAsGuid(this ClaimsPrincipal user)
         {
-            var userId = user.Claims.First(c => c.Type == "Id").Value;
-            var userIdAsGuid = new Guid(userId);
+            var userIdClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
+
+            if (userIdClaim == null)
+                return null;
+
+            var userIdAsGuid = new Guid(userIdClaim.Value);
 
             return userIdAsGuid;
         }
 
         public static string GetUserName(this ClaimsPrincipal user)
         {
-            var userName = user.Claims.First(c => c.Type == "UserName").Value;
+            var userNameClaim = user.Claims.FirstOrDefault(c => c.Type == "UserName");
 
-            return userName;
+            if (userNameClaim == null)
+                return null;
+
+            return userNameClaim.Value;
         }
     }
 }

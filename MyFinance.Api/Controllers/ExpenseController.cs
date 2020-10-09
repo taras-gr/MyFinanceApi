@@ -39,19 +39,21 @@ namespace MyFinance.Api.Controllers
             var userIdFromToken = User.GetUserIdAsGuid();
             string currentUserName = User.GetUserName();
 
-            if (currentUserName != userName)
+            if (userIdFromToken == null || currentUserName == null || currentUserName != userName)
             {
                 return Unauthorized();
             }
 
-            var expenseFromRepo = await _expenseService.GetUserExpenseById(userIdFromToken, expenseId);
+            var expenseFromRepo = await _expenseService.GetUserExpenseById((Guid)userIdFromToken, expenseId);
 
             if(expenseFromRepo == null)
             {
                 return NotFound();
             }
 
-            return Ok(expenseFromRepo);
+            var expenseToReturn = _mapper.Map<ExpenseDto>(expenseFromRepo);
+
+            return Ok(expenseToReturn);
         }
 
         [HttpGet]
@@ -67,7 +69,7 @@ namespace MyFinance.Api.Controllers
                 return Unauthorized();
             }
 
-            var expensesFromRepo = await _expenseService.GetUserExpenses(userIdFromToken, expensesResourceParameters);
+            var expensesFromRepo = await _expenseService.GetUserExpenses(userIdFromToken.Value, expensesResourceParameters);
 
             var paginationMetaData = new
             {
@@ -101,12 +103,12 @@ namespace MyFinance.Api.Controllers
             var categoryTitleFromExpense = expenseEntity.Category;
 
             if(!await _categoryService
-                .CategoryExistForSpecificUser(userIdFromToken, categoryTitleFromExpense))
+                .CategoryExistForSpecificUser(userIdFromToken.Value, categoryTitleFromExpense))
             {
                 return BadRequest();
             }
 
-            await _expenseService.AddExpense(userIdFromToken, expenseEntity);
+            await _expenseService.AddExpense(userIdFromToken.Value, expenseEntity);
 
             var expenseToReturn = _mapper.Map<ExpenseDto>(expenseEntity);
 
@@ -127,12 +129,12 @@ namespace MyFinance.Api.Controllers
                 return Unauthorized();
             }
 
-            if (! await _expenseService.ExpenseExistForUser(userIdFromToken, expenseId))
+            if (! await _expenseService.ExpenseExistForUser(userIdFromToken.Value, expenseId))
             {
                 return NotFound();
             }
 
-            await _expenseService.DeleteUserExpenseById(userIdFromToken, expenseId);
+            await _expenseService.DeleteUserExpenseById(userIdFromToken.Value, expenseId);
 
             return NoContent();
         }
