@@ -48,6 +48,12 @@ pipeline {
                     }
                 }                
             }
+        }
+        stage('Update AWS lambda') {
+                steps {
+                    bat "cd MyFinance.Api"
+                    //bat "dotnet lambda deploy-serverless -sn MyFinanceApi -sb myfinanceapi-lambda-bucket/MyFinance.Api --region us-east-1 -t MyFinance.Api/serverless.template --profile default"
+                }
         } 
 
     }
