@@ -1,0 +1,52 @@
+{
+  "expenses": [
+    {
+      "Id": "262598bf-8b90-471b-84bf-91ff9c903c9a",
+      "Title": "TestExpense_1",
+      "ExpenseDate": "2020-01-01",
+      "Cost": "100",
+      "Category": "TestCategory_1",
+      "UserId": "63608a06-0e66-4758-8584-1d613e983635"
+    },
+    {
+      "Id": "2ad80391-0d46-45dd-9e8d-b6aea209f122",
+      "Title": "TestExpense_2",
+      "ExpenseDate": "2020-01-01",
+      "Cost": "300",
+      "Category": "TestCategory_1",
+      "UserId": "63608a06-0e66-4758-8584-1d613e983635"
+    },
+    {
+      "Id": "46a7137d-894d-4d4c-97b0-9ec5ce846730",
+      "Title": "TestExpense_3",
+      "ExpenseDate": "2020-01-02",
+      "Cost": "900",
+      "Category": "TestCategory_2",
+      "UserId": "63608a06-0e66-4758-8584-1d613e983635"
+    },
+    {
+      "Id": "da1e9b1f-f24a-4685-acf8-1e25f1bdbe5d",
+      "Title": "TestExpense_4",
+      "ExpenseDate": "2020-05-01",
+      "Cost": "1500",
+      "Category": "TestCategory_2",
+      "UserId": "3adcddde-8639-4d3f-8092-fa5e8f373cfa"
+    },
+    {
+      "Id": "7c29c6bc-7b3c-42cc-8e6c-94ec609882b7",
+      "Title": "TestExpense_5",
+      "ExpenseDate": "2020-09-01",
+      "Cost": "5960",
+      "Category": "TestCategory_3",
+      "UserId": "5db0a816-659c-4ec4-af75-c5b0ce558b46"
+    },
+    {
+      "Id": "d66b221b-9865-4741-98de-c74f4c37e4e1",
+      "Title": "TestExpense_6",
+      "ExpenseDate": "2020-11-01",
+      "Cost": "25000",
+      "Category": "TestCategory_3",
+      "UserId": "5db0a816-659c-4ec4-af75-c5b0ce558b46"
+    }
+  ]
+}

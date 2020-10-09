@@ -18,4 +18,10 @@
     <ProjectReference Include="..\MyFinance.Repositories\MyFinance.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
