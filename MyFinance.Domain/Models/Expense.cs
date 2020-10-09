@@ -20,6 +20,21 @@ namespace MyFinance.Domain.Models
         [ForeignKey("UserId")]
         public User User { get; set; }
 
-        public Guid UserId { get; set; }        
+        public Guid UserId { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var objectToCompare = obj as Expense;
+
+            if (Id == objectToCompare.Id &&
+                Title == objectToCompare.Title &&
+                Category == objectToCompare.Category &&
+                ExpenseDate == objectToCompare.ExpenseDate &&
+                Cost == objectToCompare.Cost &&
+                UserId == objectToCompare.UserId)
+                return true;
+
+            return base.Equals(obj);
+        }
     }
 }

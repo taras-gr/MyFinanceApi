@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper.Configuration.Conventions;
+using System;
 
 namespace MyFinance.Services.DataTransferObjects
 {
@@ -15,5 +16,20 @@ namespace MyFinance.Services.DataTransferObjects
         public int Cost { get; set; }
 
         public Guid UserId { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var objectToCompare = obj as ExpenseDto;
+
+            if (Id == objectToCompare.Id &&
+                Title == objectToCompare.Title &&
+                Category == objectToCompare.Category &&
+                ExpenseDate == objectToCompare.ExpenseDate &&
+                Cost == objectToCompare.Cost &&
+                UserId == objectToCompare.UserId)
+                return true;
+
+            return base.Equals(obj);
+        }
     }
 }
