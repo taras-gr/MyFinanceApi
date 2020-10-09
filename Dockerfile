@@ -9,7 +9,7 @@ COPY ["MyFinance.Services/MyFinance.Services.csproj", "MyFinance.Services/"]
 COPY ["MyFinance.Domain/MyFinance.Domain.csproj", "MyFinance.Domain/"]
 COPY ["MyFinance.Repositories/MyFinance.Repositories.csproj", "MyFinance.Repositories/"]
 COPY ["MyFinance.Api.Tests/MyFinance.Api.Tests.csproj", "MyFinance.Api.Tests/"]
-COPY ["MyFinance.Repositories/MyFinance.Repositories.Tests.csproj", "MyFinance.Repositories.Tests/"]
+COPY ["MyFinance.Repositories.Tests/MyFinance.Repositories.Tests.csproj", "MyFinance.Repositories.Tests/"]
 
 RUN dotnet restore "MyFinance.Api/MyFinance.Api.csproj"
 COPY . .
