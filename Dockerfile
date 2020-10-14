@@ -4,16 +4,16 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["MyFinance.Api/MyFinance.Api.csproj", "MyFinance.Api/"]
-COPY ["MyFinance.Services/MyFinance.Services.csproj", "MyFinance.Services/"]
-COPY ["MyFinance.Domain/MyFinance.Domain.csproj", "MyFinance.Domain/"]
-COPY ["MyFinance.Repositories/MyFinance.Repositories.csproj", "MyFinance.Repositories/"]
-COPY ["MyFinance.Api.Tests/MyFinance.Api.Tests.csproj", "MyFinance.Api.Tests/"]
-COPY ["MyFinance.Repositories.Tests/MyFinance.Repositories.Tests.csproj", "MyFinance.Repositories.Tests/"]
+COPY ["source/MyFinance.Api/MyFinance.Api.csproj", "source/MyFinance.Api/"]
+COPY ["source/MyFinance.Services/MyFinance.Services.csproj", "source/MyFinance.Services/"]
+COPY ["source/MyFinance.Domain/MyFinance.Domain.csproj", "source/MyFinance.Domain/"]
+COPY ["source/MyFinance.Repositories/MyFinance.Repositories.csproj", "source/MyFinance.Repositories/"]
+COPY ["tests/MyFinance.Api.Tests/MyFinance.Api.Tests.csproj", "tests/MyFinance.Api.Tests/"]
+COPY ["tests/MyFinance.Repositories.Tests/MyFinance.Repositories.Tests.csproj", "tests/MyFinance.Repositories.Tests/"]
 
-RUN dotnet restore "MyFinance.Api/MyFinance.Api.csproj"
+RUN dotnet restore "source/MyFinance.Api/MyFinance.Api.csproj"
 COPY . .
-WORKDIR "/src/MyFinance.Api"
+WORKDIR "/src/source/MyFinance.Api"
 RUN dotnet build "MyFinance.Api.csproj" -c Release -o /app/build
 
 RUN dotnet test
