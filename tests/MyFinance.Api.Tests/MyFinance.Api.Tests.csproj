@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyFinance.Api\MyFinance.Api.csproj" />
+    <ProjectReference Include="..\..\source\MyFinance.Api\MyFinance.Api.csproj" />
   </ItemGroup>
 
 </Project>

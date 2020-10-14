@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>E:\MyFinance\MyFinanceApi\MyFinance.Api\MyFinance.Api.xml</DocumentationFile>
+    <DocumentationFile>E:\MyFinance\MyFinanceApi\source\MyFinance.Api\MyFinance.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,12 +35,6 @@
     <Content Update="appsettings.Production.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="MyFinance.Api.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 

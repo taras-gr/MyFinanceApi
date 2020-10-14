@@ -3,17 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Api", "MyFinance.Api\MyFinance.Api.csproj", "{C37D6E6A-68C1-4F9E-840E-F42C094BD799}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Api", "source\MyFinance.Api\MyFinance.Api.csproj", "{C37D6E6A-68C1-4F9E-840E-F42C094BD799}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Domain", "MyFinance.Domain\MyFinance.Domain.csproj", "{621EDF40-0FCB-498A-A447-F4A376928271}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Domain", "source\MyFinance.Domain\MyFinance.Domain.csproj", "{621EDF40-0FCB-498A-A447-F4A376928271}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Services", "MyFinance.Services\MyFinance.Services.csproj", "{42C34A7E-703E-4329-A7A7-42300CB8FE56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Services", "source\MyFinance.Services\MyFinance.Services.csproj", "{42C34A7E-703E-4329-A7A7-42300CB8FE56}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Repositories", "MyFinance.Repositories\MyFinance.Repositories.csproj", "{CA1188AF-017A-4033-9229-A8F075D737FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Repositories", "source\MyFinance.Repositories\MyFinance.Repositories.csproj", "{CA1188AF-017A-4033-9229-A8F075D737FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Api.Tests", "MyFinance.Api.Tests\MyFinance.Api.Tests.csproj", "{0B69CC46-4323-4040-BAE5-A122C8992BB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Api.Tests", "tests\MyFinance.Api.Tests\MyFinance.Api.Tests.csproj", "{0B69CC46-4323-4040-BAE5-A122C8992BB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFinance.Repositories.Tests", "MyFinance.Repositories.Tests\MyFinance.Repositories.Tests.csproj", "{48DFA917-D25B-449C-9164-D1527CFEB568}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyFinance.Repositories.Tests", "tests\MyFinance.Repositories.Tests\MyFinance.Repositories.Tests.csproj", "{48DFA917-D25B-449C-9164-D1527CFEB568}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{F8DF10DD-8FA8-451A-9B13-420A0EDA1637}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{C1C44ED0-8EEA-4B5B-9032-6C3F995A0673}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +52,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C37D6E6A-68C1-4F9E-840E-F42C094BD799} = {F8DF10DD-8FA8-451A-9B13-420A0EDA1637}
+		{621EDF40-0FCB-498A-A447-F4A376928271} = {F8DF10DD-8FA8-451A-9B13-420A0EDA1637}
+		{42C34A7E-703E-4329-A7A7-42300CB8FE56} = {F8DF10DD-8FA8-451A-9B13-420A0EDA1637}
+		{CA1188AF-017A-4033-9229-A8F075D737FC} = {F8DF10DD-8FA8-451A-9B13-420A0EDA1637}
+		{0B69CC46-4323-4040-BAE5-A122C8992BB8} = {C1C44ED0-8EEA-4B5B-9032-6C3F995A0673}
+		{48DFA917-D25B-449C-9164-D1527CFEB568} = {C1C44ED0-8EEA-4B5B-9032-6C3F995A0673}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C046898-D291-4E73-A000-E56B0707EE63}
