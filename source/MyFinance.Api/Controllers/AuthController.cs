@@ -79,7 +79,7 @@ namespace MyFinance.Api.Controllers
                 return Ok(new { token = token.Item1, userName = token.Item2 });
             }
 
-            return BadRequest(new { message = "Username or password is incorrect." });
+            return BadRequest(new { message = "Username / password is incorrect." });
         }
     }
 }
