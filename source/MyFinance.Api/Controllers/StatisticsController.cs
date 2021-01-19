@@ -37,7 +37,7 @@ namespace MyFinance.Api.Controllers
             }
 
             var dailyStats = await _statisticsService
-                .GetUserExpenseStatsByProperty(userIdFromToken.Value, startDate, endDate, statsByProperty);
+                .GetUserExpenseStatsByProperty(userIdFromToken, startDate, endDate, statsByProperty);
 
             return Ok(dailyStats);
         }
