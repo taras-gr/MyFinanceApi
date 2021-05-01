@@ -69,7 +69,7 @@ namespace MyFinance.Api.Controllers
                 return Unauthorized();
             }
 
-            var expensesFromRepo = await _expenseService.GetUserExpenses(userIdFromToken.Value, expensesResourceParameters);
+            var expensesFromRepo = await _expenseService.GetUserExpenses(userIdFromToken, expensesResourceParameters);
 
             var paginationMetaData = new
             {
@@ -103,12 +103,12 @@ namespace MyFinance.Api.Controllers
             var categoryTitleFromExpense = expenseEntity.Category;
 
             if(!await _categoryService
-                .CategoryExistForSpecificUser(userIdFromToken.Value, categoryTitleFromExpense))
+                .CategoryExistForSpecificUser(userIdFromToken, categoryTitleFromExpense))
             {
                 return BadRequest();
             }
 
-            await _expenseService.AddExpense(userIdFromToken.Value, expenseEntity);
+            await _expenseService.AddExpense(userIdFromToken, expenseEntity);
 
             var expenseToReturn = _mapper.Map<ExpenseDto>(expenseEntity);
 
@@ -129,12 +129,12 @@ namespace MyFinance.Api.Controllers
                 return Unauthorized();
             }
 
-            if (! await _expenseService.ExpenseExistForUser(userIdFromToken.Value, expenseId))
+            if (! await _expenseService.ExpenseExistForUser(userIdFromToken, expenseId))
             {
                 return NotFound();
             }
 
-            await _expenseService.DeleteUserExpenseById(userIdFromToken.Value, expenseId);
+            await _expenseService.DeleteUserExpenseById(userIdFromToken, expenseId);
 
             return NoContent();
         }
