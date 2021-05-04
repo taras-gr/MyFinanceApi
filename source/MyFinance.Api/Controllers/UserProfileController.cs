@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyFinance.Api.Helpers;
 using MyFinance.Services.Interfaces;
 using System;
 using System.Linq;
@@ -22,11 +23,9 @@ namespace MyFinance.Api.Controllers
         //GET : /api/UserProfile
         public async Task<object> GetUserProfile()
         {
-            string id = User.Claims.First(c => c.Type == "Id").Value;
+            var userIdFromToken = User.GetUserIdAsGuid();
 
-            Guid userId = new Guid(id);
-
-            var user = await _userService.GetUserById(userId);
+            var user = await _userService.GetUserById(userIdFromToken);
 
             return new
             {

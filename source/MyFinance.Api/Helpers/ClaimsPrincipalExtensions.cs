@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Amazon.Extensions.CognitoAuthentication;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Linq;
 using System.Security.Claims;
 
@@ -8,7 +10,7 @@ namespace MyFinance.Api.Helpers
     {
         public static Guid GetUserIdAsGuid(this ClaimsPrincipal user)
         {
-            var userIdClaim = user.Claims.FirstOrDefault(c => c.Type == "Id");
+            var userIdClaim = user.Claims.FirstOrDefault(k => k.Type.Contains("nameidentifier"));
 
             if (userIdClaim == null)
                 return Guid.NewGuid();
@@ -20,7 +22,7 @@ namespace MyFinance.Api.Helpers
 
         public static string GetUserName(this ClaimsPrincipal user)
         {
-            var userNameClaim = user.Claims.FirstOrDefault(c => c.Type == "UserName");
+            var userNameClaim = user.Claims.FirstOrDefault(c => c.Type == "cognito:username");
 
             if (userNameClaim == null)
                 return null;

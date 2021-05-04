@@ -23,17 +23,20 @@ namespace MyFinance.Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IAWSCognitoService _AWSCognitoService;
         private readonly IAuthenticationManagerService _authenticationManagerService;
         private readonly IMapper _mapper;
         private readonly IOptions<JwtSettings> _jwtSettings;
 
         public AuthController(
             IUserService userService,
+            IAWSCognitoService AWSCognitoService,
             IAuthenticationManagerService authenticationManagerService,
             IMapper mapper,
             IOptions<JwtSettings> jwtSettings)
         {
             _userService = userService;
+            _AWSCognitoService = AWSCognitoService;
             _authenticationManagerService = authenticationManagerService;
             _mapper = mapper;
             _jwtSettings = jwtSettings;
@@ -42,26 +45,17 @@ namespace MyFinance.Api.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult> RegisterUser([FromBody]UserForCreationDto user)
         {
+            var signUpResult = await _AWSCognitoService.PerformSignUpAsync(user);
+            var authResponse = await _AWSCognitoService.PerformAuthAsync(user);
+
             var userToAdd = _mapper.Map<User>(user);
+            userToAdd.Id = new Guid(signUpResult.UserSub);
 
             try
             {
                 var addedUser = await _userService.AddUser(userToAdd);
 
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("Id", addedUser.Id.ToString()),
-                        new Claim("UserName", addedUser.UserName.ToString())
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(1),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Value.JwtSecret)), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                var token = tokenHandler.WriteToken(securityToken);
-                return Ok(new { token, addedUser.UserName });
+                return Ok(new { token = authResponse.AuthenticationResult.IdToken, addedUser.UserName });
             }
             catch (Exception ex)
             {

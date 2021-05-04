@@ -1,7 +1,9 @@
 using System;
+using Amazon.Extensions.CognitoAuthentication;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,11 +30,15 @@ namespace MyFinance.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCognitoIdentity();
+
             services.AddControllers();
 
             services.AddAWSService<Amazon.S3.IAmazonS3>();
 
             services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IAWSCognitoService, AWSCognitoService>();
 
             services.AddScoped<IUserRepository, UserRepositoryRdms>();
 
@@ -56,11 +62,13 @@ namespace MyFinance.Api
 
             services.ConfigureMongoDbSettings(Configuration);
 
+            services.ConfigureAWSCognitoSettings(Configuration);
+
             services.ConfigureJwtAuthentication(Configuration);
 
             services.ConfigureCors();
 
-            services.ConfigureSwagger(WebHostEnvironment);
+            services.ConfigureSwagger(WebHostEnvironment);    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -11,8 +11,11 @@ using MyFinance.Api.OperationFilters;
 using MyFinance.Repositories;
 using MyFinance.Repositories.Repositories;
 using MyFinance.Services.Helpers;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Text;
 
@@ -40,27 +43,38 @@ namespace MyFinance.Api.Helpers
 
         public static void ConfigureJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            var key = Encoding.UTF8.GetBytes(configuration["JwtSettings:JwtSecret"]);
+            var region = configuration["AWSCognitoSettings:Region"];
+            var poolId = configuration["AWSCognitoSettings:UserPoolId"];
+            var appClientId = configuration["AWSCognitoSettings:UserPoolClientId"];
+            var json = new WebClient().DownloadString($"https://cognito-idp.{region}.amazonaws.com/{poolId}/.well-known/jwks.json");
 
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x => {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = false;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+            services
+              .AddAuthentication(options =>
+              {
+                  options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+              })
+              .AddJwtBearer(options =>
+              {
+                  options.SaveToken = true;
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidateIssuerSigningKey = true,
+                      IssuerSigningKeyResolver = (s, securityToken, identifier, parameters) =>
+                      {
+                          return JsonConvert.DeserializeObject<JsonWebKeySet>(json).Keys;
+                      },
+                      ValidateIssuer = true,
+                      ValidIssuer = $"https://cognito-idp.{region}.amazonaws.com/{poolId}",
+                      ValidateLifetime = true,
+                      LifetimeValidator = (before, expires, token, param) => expires > DateTime.UtcNow,
+                      ValidateAudience = true,
+                      ValidAudience = appClientId,
+                  };
+              });
+
         }
-    
+
         public static void ConfigureSqlDbContext(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
         {
             var loggerFactory = new LoggerFactory();
@@ -79,7 +93,13 @@ namespace MyFinance.Api.Helpers
             var mongoDbSettings = configuration.GetSection("MongoDbSettings");
             services.Configure<MongoDbSettings>(mongoDbSettings);
         }
-    
+
+        public static void ConfigureAWSCognitoSettings(this IServiceCollection services, IConfiguration configuration)
+        {
+            var AWSCognitoSettings = configuration.GetSection("AWSCognitoSettings");
+            services.Configure<AWSCognitoSettings>(AWSCognitoSettings);
+        }
+
         public static void ConfigureSwagger(this IServiceCollection services, IWebHostEnvironment env)
         {
             services.AddSwaggerGen(setupAction =>

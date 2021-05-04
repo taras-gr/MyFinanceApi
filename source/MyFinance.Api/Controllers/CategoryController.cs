@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MyFinance.Api.Helpers;
 using MyFinance.Domain.Models;
 using MyFinance.Services.DataTransferObjects;
 using MyFinance.Services.Interfaces;
@@ -30,16 +31,16 @@ namespace MyFinance.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetUserCategories(string userName)
         {
-            string userIdFromToken = User.Claims.First(c => c.Type == "Id").Value;
-            string currentUserName = User.Claims.First(c => c.Type == "UserName").Value;
+            var userIdFromToken = User.GetUserIdAsGuid();
+            string currentUserName = User.GetUserName();
 
-            if(currentUserName != userName)
+            if (currentUserName != userName)
             {
                 return Unauthorized();
             }
 
             var categoriesFromCategoryService = 
-               await _categoryService.GetUserCategories(userIdFromToken);
+               await _categoryService.GetUserCategories(userIdFromToken.ToString());
 
             return Ok(categoriesFromCategoryService);
         }
@@ -47,10 +48,10 @@ namespace MyFinance.Api.Controllers
         [HttpGet("{categoryId}")]
         public async Task<ActionResult<Category>> GetUserCategoryById(Guid categoryId)
         {
-            string userIdFromToken = User.Claims.First(c => c.Type == "Id").Value;
+            var userIdFromToken = User.GetUserIdAsGuid();
 
             var categoryFromCategoryService =
-               await _categoryService.GetUserCategoryById(userIdFromToken, categoryId.ToString());
+               await _categoryService.GetUserCategoryById(userIdFromToken.ToString(), categoryId.ToString());
 
             return Ok(categoryFromCategoryService);
         }
@@ -60,9 +61,9 @@ namespace MyFinance.Api.Controllers
         {
             var categoryToAdd = _mapper.Map<Category>(category);
 
-            string userIdFromToken = User.Claims.First(c => c.Type == "Id").Value;
+            var userIdFromToken = User.GetUserIdAsGuid();
 
-            await _categoryService.AddCategory(userIdFromToken, categoryToAdd);
+            await _categoryService.AddCategory(userIdFromToken.ToString(), categoryToAdd);
 
             return Ok();
         }
@@ -70,22 +71,22 @@ namespace MyFinance.Api.Controllers
         [HttpDelete("{categoryId}")]
         public async Task<ActionResult> DelleteUserCategoryById(string userName, Guid categoryId)
         {
-            string userIdFromToken = User.Claims.First(c => c.Type == "Id").Value;
-            string currentUserName = User.Claims.First(c => c.Type == "UserName").Value;
+            var userIdFromToken = User.GetUserIdAsGuid();
+            string currentUserName = User.GetUserName();
 
             if (currentUserName != userName)
             {
                 return Unauthorized();
             }
 
-            var categoryToDelete = await _categoryService.GetUserCategoryById(userIdFromToken, categoryId.ToString());
+            var categoryToDelete = await _categoryService.GetUserCategoryById(userIdFromToken.ToString(), categoryId.ToString());
 
             if (categoryToDelete == null)
             {
                 return NotFound();
             }
 
-            await _categoryService.DeleteUserCategoryById(userIdFromToken, categoryId);
+            await _categoryService.DeleteUserCategoryById(userIdFromToken.ToString(), categoryId);
 
             return NoContent();
         }
