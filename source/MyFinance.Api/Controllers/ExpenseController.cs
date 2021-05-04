@@ -117,6 +117,29 @@ namespace MyFinance.Api.Controllers
                 expenseToReturn);
         }
 
+        [HttpPut("{expenseId}")]
+        [Authorize]
+        public async Task<ActionResult> UpdateExpenseById(string userName, Guid expenseId,
+            [FromBody] ExpenseForEditingDto expenseToPut)
+        {
+            var userIdFromToken = User.GetUserIdAsGuid();
+            string currentUserName = User.GetUserName();
+
+            if (currentUserName != userName)
+            {
+                return Unauthorized();
+            }
+
+            if (!await _expenseService.ExpenseExistForUser(userIdFromToken, expenseId))
+            {
+                return NotFound();
+            }
+
+            await _expenseService.UpdateUserExpenseById(userIdFromToken, expenseId, expenseToPut);
+
+            return NoContent();
+        }
+
         [HttpDelete("{expenseId}")]
         [Authorize]
         public async Task<ActionResult> DeleteUserExpenseById(string userName, Guid expenseId)

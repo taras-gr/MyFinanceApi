@@ -12,11 +12,8 @@ namespace MyFinance.Repositories.Interfaces
         Task<Expense> GetExpenseById(Guid expenseId);
         Task<Expense> GetUserExpenseById(Guid userId, Guid expenseId);
         Task<IQueryable<Expense>> GetUserExpenses(Guid userId, ExpensesResourceParameters expensesResourceParameters);
-        //Task<User> GetUserByName(string userName);
-        //Task<User> GetUserByEmail(string email);
-        //Task<List<User>> GetUsers();
         Task AddExpense(Guid userId, Expense expense);
-        //Task<bool> UpdateUser(string userId, User user);
+        Task UpdateExpense(Expense expense);
         Task DeleteExpense(Expense expense);
         Task<int> Save();
     }

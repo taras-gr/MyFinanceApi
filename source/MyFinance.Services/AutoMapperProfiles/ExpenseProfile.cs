@@ -9,6 +9,7 @@ namespace MyFinance.Services.AutoMapperProfiles
         public ExpenseProfile()
         {
             CreateMap<ExpenseForCreationDto, Expense>();
+            CreateMap<ExpenseForEditingDto, Expense>();
             CreateMap<ExpenseDto, Expense>().ReverseMap();
         }
     }

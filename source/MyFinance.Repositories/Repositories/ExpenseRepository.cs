@@ -24,6 +24,11 @@ namespace MyFinance.Repositories.Repositories
             await _context.Expenses.AddAsync(expense);  
         }
 
+        public async Task UpdateExpense(Expense expenseToEdit)
+        {
+            await Task.Run(() => _context.Expenses.Update(expenseToEdit));
+        }
+
         public async Task<Expense> GetExpenseById(Guid expenseId)
         {
             var expenseToReturn = await _context.Expenses

@@ -3,6 +3,7 @@ using MyFinance.Domain.Models;
 using MyFinance.Repositories.Helpers;
 using MyFinance.Repositories.Interfaces;
 using MyFinance.Repositories.ResourceParameters;
+using MyFinance.Services.DataTransferObjects;
 using MyFinance.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -21,6 +22,19 @@ namespace MyFinance.Services
         public async Task AddExpense(Guid userId, Expense expense)
         {
             await _repository.AddExpense(userId, expense);
+            await _repository.Save();
+        }
+
+        public async Task UpdateUserExpenseById(Guid userId, Guid expenseId, ExpenseForEditingDto expense)
+        {
+            var expenseToUpdate = await GetUserExpenseById(userId, expenseId);
+
+            expenseToUpdate.Title = expense.Title;
+            expenseToUpdate.Category = expense.Category;
+            expenseToUpdate.ExpenseDate = expense.ExpenseDate;
+            expenseToUpdate.Cost = expense.Cost;
+
+            await _repository.UpdateExpense(expenseToUpdate);
             await _repository.Save();
         }
 
