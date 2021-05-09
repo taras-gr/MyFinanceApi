@@ -85,7 +85,6 @@ namespace MyFinance.Repositories.Tests
             };           
 
             await _expenseRepository.DeleteExpense(expectedExpenseToDelete);
-            await _expenseRepository.Save();
 
             var expenses = await _expenseRepository
                 .GetUserExpenses(new Guid("5db0a816-659c-4ec4-af75-c5b0ce558b46"),

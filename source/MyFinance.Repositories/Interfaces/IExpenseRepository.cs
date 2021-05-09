@@ -15,6 +15,5 @@ namespace MyFinance.Repositories.Interfaces
         Task AddExpense(Guid userId, Expense expense);
         Task UpdateExpense(Expense expense);
         Task DeleteExpense(Expense expense);
-        Task<int> Save();
     }
 }

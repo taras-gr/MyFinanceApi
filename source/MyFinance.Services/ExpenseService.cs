@@ -22,7 +22,6 @@ namespace MyFinance.Services
         public async Task AddExpense(Guid userId, Expense expense)
         {
             await _repository.AddExpense(userId, expense);
-            await _repository.Save();
         }
 
         public async Task UpdateUserExpenseById(Guid userId, Guid expenseId, ExpenseForEditingDto expense)
@@ -35,7 +34,6 @@ namespace MyFinance.Services
             expenseToUpdate.Cost = expense.Cost;
 
             await _repository.UpdateExpense(expenseToUpdate);
-            await _repository.Save();
         }
 
         public Task<Expense> GetExpenseById(Guid userId)
@@ -62,8 +60,6 @@ namespace MyFinance.Services
             var expenseToDelete = await this.GetUserExpenseById(userId, expenseId);
 
             await _repository.DeleteExpense(expenseToDelete);
-
-            await _repository.Save();
         }
 
         public Task<int> Save()

@@ -14,6 +14,5 @@ namespace MyFinance.Repositories.Interfaces
         Task<User> AddUser(User user);
         Task<bool> UpdateUser(string userId, User user);
         Task<bool> DeleteUser(string userId);
-        Task<int> Save();
     }
 }

@@ -12,6 +12,5 @@ namespace MyFinance.Repositories.Interfaces
         Task<Category> GetUserCategoryByTitle(Guid userId, string categoryTitle);
         Task AddCategory(Guid userId, Category category);
         Task DeleteUserCategoryById(Guid userId, Guid categoryId);
-        Task<int> Save();
     }
 }

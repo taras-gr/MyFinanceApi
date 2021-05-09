@@ -21,12 +21,16 @@ namespace MyFinance.Repositories.Repositories
         public async Task AddExpense(Guid userId, Expense expense)
         {
             expense.UserId = userId;
-            await _context.Expenses.AddAsync(expense);  
+            await _context.Expenses.AddAsync(expense);
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateExpense(Expense expenseToEdit)
         {
             await Task.Run(() => _context.Expenses.Update(expenseToEdit));
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Expense> GetExpenseById(Guid expenseId)
@@ -76,11 +80,8 @@ namespace MyFinance.Repositories.Repositories
         public async Task DeleteExpense(Expense expenseToDelete)
         {
             await Task.Run(() => _context.Expenses.Remove(expenseToDelete));
-        }
 
-        public async Task<int> Save()
-        {
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

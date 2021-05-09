@@ -46,6 +46,8 @@ namespace MyFinance.Repositories.Repositories
             category.UserId = userId;
 
             await _context.Categories.AddAsync(category);
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteUserCategoryById(Guid userId, Guid categoryId)
@@ -54,11 +56,8 @@ namespace MyFinance.Repositories.Repositories
                 .FirstOrDefaultAsync(s => s.UserId == userId && s.Id == categoryId);
 
             _context.Categories.Remove(categoryToDelete);
-        }      
 
-        public async Task<int> Save()
-        {
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -33,14 +33,12 @@ namespace MyFinance.Services
         {
             var userIdGuid = new Guid(userId);
             await _categoryRepository.AddCategory(userIdGuid, category);
-            await _categoryRepository.Save();
         }
 
         public async Task DeleteUserCategoryById(string userId, Guid categoryId)
         {
             var userIdGuid = new Guid(userId);
             await _categoryRepository.DeleteUserCategoryById(userIdGuid, categoryId);
-            await _categoryRepository.Save();
         }        
 
         public async Task<bool> CategoryExistForSpecificUser(Guid userId, string categoryTitle)
