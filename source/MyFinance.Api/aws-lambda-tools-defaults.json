@@ -13,6 +13,6 @@
     "s3-prefix"     : "MyFinance.Api/",
     "template"      : "serverless.template",
     "template-parameters" : "\"ShouldCreateBucket\"=\"true\";\"BucketName\"=\"\"",
-    "s3-bucket"           : "myfinanceapi-lambda-bucket",
+    "s3-bucket"           : "myfinanceapi-lambdabucket",
     "stack-name"          : "MyFinanceApi"
 }
