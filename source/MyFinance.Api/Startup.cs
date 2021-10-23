@@ -1,4 +1,6 @@
 using System;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.Extensions.CognitoAuthentication;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyFinance.Api.Helpers;
+using MyFinance.Repositories.DynamoDb;
 using MyFinance.Repositories.Interfaces;
 using MyFinance.Repositories.Repositories;
 using MyFinance.Services;
@@ -34,21 +37,30 @@ namespace MyFinance.Api
 
             services.AddControllers();
 
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+
+            Environment.SetEnvironmentVariable("AWS_ACCESS_KEY_ID", Configuration["AWS:AccessKey"]);
+            Environment.SetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", Configuration["AWS:SecretKey"]);
+            Environment.SetEnvironmentVariable("AWS_REGION", Configuration["AWS:Region"]);
+
+            services.AddAWSService<IAmazonDynamoDB>();
+            services.AddScoped<IDynamoDBContext, DynamoDBContext>();
+
             services.AddAWSService<Amazon.S3.IAmazonS3>();
 
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IAWSCognitoService, AWSCognitoService>();
 
-            services.AddScoped<IUserRepository, UserRepositoryRdms>();
+            services.AddScoped<IUserRepository, DynamoDbUserRepository>();
 
             services.AddScoped<IExpenseService, ExpenseService>();
 
-            services.AddScoped<IExpenseRepository, ExpenseRepository>();
+            services.AddScoped<IExpenseRepository, DynamoDbExpenseRepository>();
 
             services.AddScoped<ICategoryService, CategoryService>();
 
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryRepository, DynamoDbCategoryRepository>();
 
             services.AddScoped<IStatisticsService, StatisticsService>();
 

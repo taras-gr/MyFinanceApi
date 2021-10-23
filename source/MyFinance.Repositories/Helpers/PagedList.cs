@@ -27,7 +27,7 @@ namespace MyFinance.Repositories.Helpers
         public async static Task<PagedList<T>> Create(IQueryable<T> source, int pageNumber, int pageSize)
         {
             var count = source.Count();
-            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = await Task.FromResult(source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList());          
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
     }

@@ -51,7 +51,7 @@ namespace MyFinance.Services
                                 Costs = costs.Sum()
                             });
 
-                    return await queryByExpenseDate.ToListAsync();
+                    return await Task.FromResult(queryByExpenseDate.ToList());
                 case ExpenseGroupByProperty.Category:
                     var queryByCategory = expensesCollection
                         .Where(s => s.ExpenseDate >= startDate && s.ExpenseDate <= endDate)
@@ -64,7 +64,7 @@ namespace MyFinance.Services
                                 Costs = costs.Sum()
                             });
 
-                    return await queryByCategory.ToListAsync();
+                    return await Task.FromResult(queryByCategory.ToList());
                 case ExpenseGroupByProperty.Title:
                     var queryByTitle = expensesCollection
                         .Where(s => s.ExpenseDate >= startDate && s.ExpenseDate <= endDate)
@@ -77,7 +77,7 @@ namespace MyFinance.Services
                                 Costs = costs.Sum()
                             });
 
-                    return await queryByTitle.ToListAsync();
+                    return await Task.FromResult(queryByTitle.ToList());
                 default:
                     throw new ArgumentException();
             }

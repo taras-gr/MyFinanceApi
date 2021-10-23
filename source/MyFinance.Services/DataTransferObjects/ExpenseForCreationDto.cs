@@ -8,7 +8,7 @@ namespace MyFinance.Services.DataTransferObjects
 
         public string Category { get; set; }
 
-        public DateTimeOffset ExpenseDate { get; set; }
+        public DateTime ExpenseDate { get; set; }
 
         public int Cost { get; set; }
     }
