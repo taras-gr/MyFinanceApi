@@ -41,5 +41,11 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="MyFinance.Api.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>
