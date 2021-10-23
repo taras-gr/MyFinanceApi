@@ -37,7 +37,7 @@ namespace MyFinance.Api.Helpers
     class ProductionServerBuilder : OpenApiServerBuilder
     {
         private const string Description = "Production server on AWS Lambda";
-        private const string Url = "https://v8vm08v6o2.execute-api.us-east-1.amazonaws.com/Prod";
+        private const string Url = "https://gk2ndif7w2.execute-api.us-east-1.amazonaws.com/Prod";
         public override void SetDescription()
         {
             OpenApiServer.Description = Description;
