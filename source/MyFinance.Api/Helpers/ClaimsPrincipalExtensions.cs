@@ -22,7 +22,7 @@ namespace MyFinance.Api.Helpers
 
         public static string GetUserName(this ClaimsPrincipal user)
         {
-            var userNameClaim = user.Claims.FirstOrDefault(c => c.Type == "cognito:username");
+            var userNameClaim = user.Claims.FirstOrDefault(c => c.Type == "name");
 
             if (userNameClaim == null)
                 return null;
