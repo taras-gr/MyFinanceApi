@@ -3,12 +3,14 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.Extensions.CognitoAuthentication;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Web;
 using MyFinance.Api.Helpers;
 using MyFinance.Repositories.DynamoDb;
 using MyFinance.Repositories.Interfaces;
@@ -33,34 +35,37 @@ namespace MyFinance.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCognitoIdentity();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
+
+            //services.AddCognitoIdentity();
 
             services.AddControllers();
 
-            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            //services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
 
-            Environment.SetEnvironmentVariable("AWS_ACCESS_KEY_ID", Configuration["AWS:AccessKey"]);
-            Environment.SetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", Configuration["AWS:SecretKey"]);
-            Environment.SetEnvironmentVariable("AWS_REGION", Configuration["AWS:Region"]);
+            //Environment.SetEnvironmentVariable("AWS_ACCESS_KEY_ID", Configuration["AWS:AccessKey"]);
+            //Environment.SetEnvironmentVariable("AWS_SECRET_ACCESS_KEY", Configuration["AWS:SecretKey"]);
+            //Environment.SetEnvironmentVariable("AWS_REGION", Configuration["AWS:Region"]);
 
-            services.AddAWSService<IAmazonDynamoDB>();
-            services.AddScoped<IDynamoDBContext, DynamoDBContext>();
+            //services.AddAWSService<IAmazonDynamoDB>();
+            //services.AddScoped<IDynamoDBContext, DynamoDBContext>();
 
-            services.AddAWSService<Amazon.S3.IAmazonS3>();
+            //services.AddAWSService<Amazon.S3.IAmazonS3>();
 
             services.AddScoped<IUserService, UserService>();
 
-            services.AddScoped<IAWSCognitoService, AWSCognitoService>();
+            //services.AddScoped<IAWSCognitoService, AWSCognitoService>();
 
             services.AddScoped<IUserRepository, DynamoDbUserRepository>();
 
             services.AddScoped<IExpenseService, ExpenseService>();
 
-            services.AddScoped<IExpenseRepository, DynamoDbExpenseRepository>();
+            services.AddScoped<IExpenseRepository, ExpenseRepository>();
 
             services.AddScoped<ICategoryService, CategoryService>();
 
-            services.AddScoped<ICategoryRepository, DynamoDbCategoryRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             services.AddScoped<IStatisticsService, StatisticsService>();
 
@@ -70,13 +75,13 @@ namespace MyFinance.Api
 
             services.ConfigureSqlDbContext(Configuration, WebHostEnvironment);
 
-            services.ConfigureJwtSetting(Configuration);
+            //services.ConfigureJwtSetting(Configuration);
 
             services.ConfigureMongoDbSettings(Configuration);
 
-            services.ConfigureAWSCognitoSettings(Configuration);
+            //services.ConfigureAWSCognitoSettings(Configuration);
 
-            services.ConfigureJwtAuthentication(Configuration);
+            //services.ConfigureJwtAuthentication(Configuration);
 
             services.ConfigureCors();
 
