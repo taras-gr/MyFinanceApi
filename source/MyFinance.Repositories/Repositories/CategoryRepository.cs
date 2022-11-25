@@ -41,10 +41,8 @@ namespace MyFinance.Repositories.Repositories
             return categoryToReturn;
         }
 
-        public async Task AddCategory(Guid userId, Category category)
+        public async Task AddCategory(Category category)
         {
-            category.UserId = userId;
-
             await _context.Categories.AddAsync(category);
 
             await _context.SaveChangesAsync();

@@ -31,8 +31,13 @@ namespace MyFinance.Services
 
         public async Task AddCategory(string userId, Category category)
         {
+            var id = Guid.NewGuid();
             var userIdGuid = new Guid(userId);
-            await _categoryRepository.AddCategory(userIdGuid, category);
+
+            category.Id = id;
+            category.UserId = userIdGuid;
+
+            await _categoryRepository.AddCategory(category);
         }
 
         public async Task DeleteUserCategoryById(string userId, Guid categoryId)

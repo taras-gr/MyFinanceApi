@@ -23,12 +23,12 @@ namespace MyFinance.Repositories.DynamoDb
             _categoriesTable = Table.LoadTable(_client, "Categories");
         }
 
-        public async Task AddCategory(Guid userId, Category category)
+        public async Task AddCategory(Category category)
         {            
             var categoryDocument = new Document();
             categoryDocument["Id"] = Guid.NewGuid();
             categoryDocument["Title"] = category.Title;
-            categoryDocument["UserId"] = userId;
+            categoryDocument["UserId"] = category.UserId;
 
             await _categoriesTable.PutItemAsync(categoryDocument);
         }
