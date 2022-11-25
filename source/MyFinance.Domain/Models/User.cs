@@ -19,10 +19,10 @@ namespace MyFinance.Domain.Models
 
         public string Password { get; set; }
 
-        public ICollection<Expense> Expenses { get; set; }
-            = new List<Expense>();
+        //public ICollection<Expense> Expenses { get; set; }
+        //    = new List<Expense>();
 
-        public ICollection<Category> ExpenseCategories { get; set; } 
-            = new List<Category>();
+        //public ICollection<Category> ExpenseCategories { get; set; } 
+        //    = new List<Category>();
     }
 }

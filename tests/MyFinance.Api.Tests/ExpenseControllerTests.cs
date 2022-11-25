@@ -121,7 +121,7 @@ namespace MyFinance.Api.Tests
                 ExpenseDate = new DateTime(2020, 1, 1, 1, 1, 1, 0),
                 Cost = 1,
                 Category = "Test",
-                User = new User(),
+                //User = new User(),
                 UserId = Guid.Empty
             };
 

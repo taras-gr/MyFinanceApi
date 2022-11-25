@@ -17,8 +17,8 @@ namespace MyFinance.Domain.Models
 
         public int Cost { get; set; }
 
-        [ForeignKey("UserId")]
-        public User User { get; set; }
+        //[ForeignKey("UserId")]
+        //public User User { get; set; }
 
         public Guid UserId { get; set; }
 

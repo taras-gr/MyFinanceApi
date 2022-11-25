@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyFinance.Repositories.Repositories;
 
@@ -11,9 +12,10 @@ using MyFinance.Repositories.Repositories;
 namespace MyFinance.Repositories.Migrations
 {
     [DbContext(typeof(MyFinanceContext))]
-    partial class MyFinanceContextModelSnapshot : ModelSnapshot
+    [Migration("20221123212154_RemovedFkFromCategoryAndExpenses")]
+    partial class RemovedFkFromCategoryAndExpenses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +37,8 @@ namespace MyFinance.Repositories.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Categories");
                 });
@@ -61,6 +65,8 @@ namespace MyFinance.Repositories.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Expenses");
                 });
@@ -89,6 +95,31 @@ namespace MyFinance.Repositories.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MyFinance.Domain.Models.Category", b =>
+                {
+                    b.HasOne("MyFinance.Domain.Models.User", null)
+                        .WithMany("ExpenseCategories")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MyFinance.Domain.Models.Expense", b =>
+                {
+                    b.HasOne("MyFinance.Domain.Models.User", null)
+                        .WithMany("Expenses")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MyFinance.Domain.Models.User", b =>
+                {
+                    b.Navigation("ExpenseCategories");
+
+                    b.Navigation("Expenses");
                 });
 #pragma warning restore 612, 618
         }
