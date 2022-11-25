@@ -33,7 +33,7 @@ namespace MyFinance.Api
         public string API_PREFIX { get; private set; } = "/Prod";
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public async void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
@@ -85,7 +85,9 @@ namespace MyFinance.Api
 
             services.ConfigureCors();
 
-            services.ConfigureSwagger(WebHostEnvironment);    
+            services.ConfigureSwagger(WebHostEnvironment);
+
+            await services.ConfigureCosmosDbAsync(Configuration.GetSection("CosmosDb"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,15 +9,19 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyFinance.Api.OperationFilters;
 using MyFinance.Repositories;
+using MyFinance.Repositories.CosmosDb;
+using MyFinance.Repositories.Interfaces;
 using MyFinance.Repositories.Repositories;
 using MyFinance.Services.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MyFinance.Api.Helpers
 {
@@ -159,6 +163,20 @@ namespace MyFinance.Api.Helpers
 
                 setupAction.IncludeXmlComments(absolutePathForDocs);
             });
+        }
+
+        public static async Task ConfigureCosmosDbAsync(this IServiceCollection services, IConfigurationSection configurationSection)
+        {
+            var databaseName = configurationSection["DatabaseName"];
+            var containerName = configurationSection["ContainerName"];
+            var account = configurationSection["Account"];
+            var key = configurationSection["Key"];
+
+            var client = new Microsoft.Azure.Cosmos.CosmosClient(account, key);
+
+            var cosmosDbService = new CosmosDbCategoryRepository(client, databaseName, containerName);
+
+            services.AddSingleton<ICategoryRepository>(cosmosDbService);
         }
     }
 
