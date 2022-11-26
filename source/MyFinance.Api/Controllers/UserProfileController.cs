@@ -12,11 +12,11 @@ namespace MyFinance.Api.Controllers
     [ApiController]
     public class UserProfileController : ControllerBase
     {
-        private readonly IUserService _userService;
-        public UserProfileController(IUserService userManager)
-        {
-            _userService = userManager;
-        }
+        //private readonly IUserService _userService;
+        //public UserProfileController(IUserService userManager)
+        //{
+        //    _userService = userManager;
+        //}
 
         [HttpGet]
         [Authorize]
@@ -25,14 +25,22 @@ namespace MyFinance.Api.Controllers
         {
             var userIdFromToken = User.GetUserIdAsGuid();
 
-            var user = await _userService.GetUserById(userIdFromToken);
+            //var user = await _userService.GetUserById(userIdFromToken);
+
+            //return new
+            //{
+            //    user.UserName,
+            //    user.FirstName,
+            //    user.LastName,
+            //    user.Email
+            //};
 
             return new
             {
-                user.UserName,
-                user.FirstName,
-                user.LastName,
-                user.Email
+                UserName = User.Claims.FirstOrDefault(k => k.Type.Equals("name")).Value,
+                FirstName = User.Claims.FirstOrDefault(k => k.Type.Contains("givenname")).Value,
+                LastName = User.Claims.FirstOrDefault(k => k.Type.Contains("surname")).Value,
+                Email = User.Claims.FirstOrDefault(k => k.Type.Contains("email")).Value
             };
         }
     }

@@ -53,11 +53,11 @@ namespace MyFinance.Api
 
             //services.AddAWSService<Amazon.S3.IAmazonS3>();
 
-            services.AddScoped<IUserService, UserService>();
+            //services.AddScoped<IUserService, UserService>();
 
             //services.AddScoped<IAWSCognitoService, AWSCognitoService>();
 
-            services.AddScoped<IUserRepository, DynamoDbUserRepository>();
+            //services.AddScoped<IUserRepository, DynamoDbUserRepository>();
 
             services.AddScoped<IExpenseService, ExpenseService>();
 
@@ -69,7 +69,7 @@ namespace MyFinance.Api
 
             services.AddScoped<IStatisticsService, StatisticsService>();
 
-            services.AddScoped<IAuthenticationManagerService, AuthenticationManagerService>();
+            //services.AddScoped<IAuthenticationManagerService, AuthenticationManagerService>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());            
 
