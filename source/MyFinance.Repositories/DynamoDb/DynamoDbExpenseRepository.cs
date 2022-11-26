@@ -25,7 +25,7 @@ namespace MyFinance.Repositories.DynamoDb
             _expensesTable = Table.LoadTable(_client, "Expenses");
         }
 
-        public async Task AddExpense(Guid userId, Expense expense)
+        public async Task AddExpense(Expense expense)
         {
             var expenseDocument = new Document();
             expenseDocument["Id"] = Guid.NewGuid();
@@ -33,7 +33,7 @@ namespace MyFinance.Repositories.DynamoDb
             expenseDocument["Category"] = expense.Category;
             expenseDocument["ExpenseDate"] = expense.ExpenseDate;
             expenseDocument["Cost"] = expense.Cost;
-            expenseDocument["UserId"] = userId;
+            expenseDocument["UserId"] = expense.UserId;
 
             await _expensesTable.PutItemAsync(expenseDocument);
         }

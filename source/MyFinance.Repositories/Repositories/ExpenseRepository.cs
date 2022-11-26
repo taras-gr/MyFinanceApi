@@ -18,9 +18,8 @@ namespace MyFinance.Repositories.Repositories
             _context = context;
         }
 
-        public async Task AddExpense(Guid userId, Expense expense)
+        public async Task AddExpense(Expense expense)
         {
-            expense.UserId = userId;
             await _context.Expenses.AddAsync(expense);
 
             await _context.SaveChangesAsync();

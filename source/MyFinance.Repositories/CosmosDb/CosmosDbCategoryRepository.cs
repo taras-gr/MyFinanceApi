@@ -29,7 +29,7 @@ namespace MyFinance.Repositories.CosmosDb
 
         public async Task<IEnumerable<Category>> GetUserCategories(Guid userId)
         {
-            var parameterizedQuery = new QueryDefinition(query: "SELECT * FROM Categories p WHERE p.UserId = @userId")
+            var parameterizedQuery = new QueryDefinition(query: "SELECT * FROM Categories p WHERE p.userId = @userId")
                 .WithParameter("@userId", userId.ToString());
 
             // Query multiple items from container
@@ -56,7 +56,7 @@ namespace MyFinance.Repositories.CosmosDb
 
         public async Task<Category> GetUserCategoryById(Guid userId, Guid categoryId)
         {
-            var parameterizedQuery = new QueryDefinition(query: "SELECT * FROM Categories p WHERE p.Id = @id")
+            var parameterizedQuery = new QueryDefinition(query: "SELECT * FROM Categories p WHERE p.id = @id")
                 .WithParameter("@id", categoryId);
 
             // Query multiple items from container
@@ -83,7 +83,7 @@ namespace MyFinance.Repositories.CosmosDb
 
         public async Task<Category> GetUserCategoryByTitle(Guid userId, string categoryTitle)
         {
-            var parameterizedQuery = new QueryDefinition(query: "SELECT * FROM Categories p WHERE p.UserId = @userId AND p.Title = @title")
+            var parameterizedQuery = new QueryDefinition(query: "SELECT * FROM Categories p WHERE p.userId = @userId AND p.title = @title")
                 .WithParameter("@userId", userId.ToString())
                 .WithParameter("@title", categoryTitle);
 

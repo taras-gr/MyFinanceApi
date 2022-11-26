@@ -21,7 +21,10 @@ namespace MyFinance.Services
 
         public async Task AddExpense(Guid userId, Expense expense)
         {
-            await _repository.AddExpense(userId, expense);
+            expense.Id = Guid.NewGuid();
+            expense.UserId = userId;
+
+            await _repository.AddExpense(expense);
         }
 
         public async Task UpdateUserExpenseById(Guid userId, Guid expenseId, ExpenseForEditingDto expense)

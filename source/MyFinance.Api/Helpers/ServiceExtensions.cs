@@ -168,15 +168,19 @@ namespace MyFinance.Api.Helpers
         public static async Task ConfigureCosmosDbAsync(this IServiceCollection services, IConfigurationSection configurationSection)
         {
             var databaseName = configurationSection["DatabaseName"];
-            var containerName = configurationSection["ContainerName"];
+            var categoriesContainerName = configurationSection["CategoriesContainerName"];
+            var expensesContainerName = configurationSection["ExpensesContainerName"];
+
             var account = configurationSection["Account"];
             var key = configurationSection["Key"];
 
             var client = new Microsoft.Azure.Cosmos.CosmosClient(account, key);
 
-            var cosmosDbService = new CosmosDbCategoryRepository(client, databaseName, containerName);
+            var categoryRepository = new CosmosDbCategoryRepository(client, databaseName, categoriesContainerName);
+            var expenseRepository = new CosmosDbExpenseRepository(client, databaseName, expensesContainerName);
 
-            services.AddSingleton<ICategoryRepository>(cosmosDbService);
+            services.AddSingleton<ICategoryRepository>(categoryRepository);
+            services.AddSingleton<IExpenseRepository>(expenseRepository);
         }
     }
 
